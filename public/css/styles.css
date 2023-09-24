@@ -43,7 +43,53 @@ body {
     align-items: center;
     gap: 1.5rem;
 }
+.menu a i {
+    font-size: 1.1rem;
+}
 
 .menu li:hover{
     background: #362E77;
+}
+.main {
+    position: relative;
+    background-color: #d9dadb;
+    width: 100%;
+    padding: 1rem;
+}
+.header-wrap {
+   display: flex;
+   justify-content: space-between;
+   align-self: center;
+   flex-wrap: wrap;
+   background-color: white;
+   border-radius: 10px;
+   padding: 10px 2rem;
+}
+.header-wrap img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1;
+}
+.searchbox {
+    width: 100%;
+    background-color: red;
+    border-radius: 15px;
+    color: black;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 12 px;
+}
+.searchbox input {
+    background: transparent;
+    padding: 10px;  
+}
+.searchbox i {
+    background: transparent;
+    padding: 10px;  
 }
