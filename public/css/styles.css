@@ -68,17 +68,15 @@ body {
 }
 
 @media (max-width: 768px) {
-    /* Hide the text in the menu links */
+    /* Hides the text in the menu links */
     .menu a span {
       display: none;
     }
-  
-    /* Reduce the width of the sidebar */
+    /* this will reduce the width of the sidebar */
     .sidebar {
       width: 80px;
     }
   
-    /* Adjust the gap between the icons and the border */
     .menu a {
       gap: 0.5rem;
     }
