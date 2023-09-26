@@ -119,10 +119,10 @@ body {
 .content {
   flex: 1;
   background-color: #e2e2e2;
-  padding: 1.2% 0 0 2%;
+  padding: 1.2% 2% 0 2%;
 }
 .dotted-box{
-    width: 90%;
+    width: 100%;
     height: 50%;
     border: 3.5px dotted gray;
     margin: auto;
