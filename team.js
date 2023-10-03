@@ -17,10 +17,10 @@ const CreateTeam = (req, res) =>{
 const getSingleTeam = (req, res) => {
   const memberId = req.params.id; // team member ID as primary key identification for each team
 
-  connection.query('SELECT * FROM team WHERE id = ? LIMIT 1', memberId, (error, results) => {
+  connection.query('SELECT * FROM team WHERE id = ? AND deleted_at IS NULL LIMIT 1', memberId, (error, results) => {
     if (error) {
       console.error(error);
-      res.status(500).send('Error retrieving team member'); // 500 is internal server error
+      res.status(500).send('Error retrieving team member');
       return;
     }
 
@@ -33,17 +33,17 @@ const getSingleTeam = (req, res) => {
     res.json(teamMember);
   });
 };
-// Get(/team/)
+// Get(/teams/)
 const getAllTeams = (req, res) => {
-  connection.query('SELECT * FROM team', (error, results) => {
+  connection.query('SELECT * FROM team WHERE deleted_at IS NULL', (error, results) => {
     if (error) {
       console.error(error);
-      res.status(500).send('Error retrieving teams'); // 500 is internal server error
+      res.status(500).send('Error retrieving teams');
       return;
     }
 
     if (results.length === 0) {
-      res.status(404).send('Teams do not exist, Create teams first');t
+      res.status(404).send('Teams do not exist, Create teams first');
       return;
     }
 
