@@ -1,6 +1,6 @@
 // the database migrations for the system to work
 
-const createTablesIfNotExist = () => {
+const createTablesIfNotExist = (connection) => {
     // Function to create tables if they don't exist
     // timestamps will help in performing soft deletion
     const createTeamTableQuery = `
