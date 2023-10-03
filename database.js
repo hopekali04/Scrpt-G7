@@ -4,7 +4,7 @@ const createTablesIfNotExist = () => {
     // Function to create tables if they don't exist
     // timestamps will help in performing soft deletion
     const createTeamTableQuery = `
-      CREATE TABLE IF NOT EXISTS teams (
+      CREATE TABLE IF NOT EXISTS team (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         role VARCHAR(255) NOT NULL,
