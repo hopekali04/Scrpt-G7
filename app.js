@@ -27,6 +27,7 @@ const home = (req, res) =>{
 //app.post("/upload/logo", multer().single('logoFile'),userService.uploadLogo)
 app.get('/', home)
 app.post('/signup', (req, res) => {userService.signUp(req, res, connection)})
+app.post('/login', (req, res) => {userService.login(req, res, connection)})
 
 app.listen(3000,()=>{
     console.log('listening');
