@@ -3,7 +3,7 @@ const team = (req, res) =>{
   res.render("team", data)
 }
 // Post(/team)
-const CreateTeam = (req, res) =>{
+const CreateTeam = (req, res, connection) =>{
     data = req.body
     connection.query("INSERT INTO team SET ?", data, (error, results)=>{
         if (error){
@@ -14,7 +14,7 @@ const CreateTeam = (req, res) =>{
     })
 }
 // Get(/team/:id)
-const getSingleTeam = (req, res) => {
+const getSingleTeam = (req, res, connection) => {
   const memberId = req.params.id; // team member ID as primary key identification for each team
 
   connection.query('SELECT * FROM team WHERE id = ? AND deleted_at IS NULL LIMIT 1', memberId, (error, results) => {
@@ -34,7 +34,7 @@ const getSingleTeam = (req, res) => {
   });
 };
 // Get(/teams/)
-const getAllTeams = (req, res) => {
+const getAllTeams = (req, res, connection) => {
   connection.query('SELECT * FROM team WHERE deleted_at IS NULL', (error, results) => {
     if (error) {
       console.error(error);
@@ -52,7 +52,7 @@ const getAllTeams = (req, res) => {
   })
 };
 // Post(/team/update/:id)
-const updateTeam = (req, res) => {
+const updateTeam = (req, res, connection) => {
   const memberId = req.params.id;
   const updatedData = req.body;
 
@@ -73,7 +73,7 @@ const updateTeam = (req, res) => {
   });
 };
 // delete(/team/:id)
-const deleteTeam = (req, res) => {
+const deleteTeam = (req, res, connection) => {
   // performs a soft delete
   const memberId = req.params.id;
 
