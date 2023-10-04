@@ -127,7 +127,24 @@ const createTablesIfNotExist = (connection) => {
       console.log('Reports table created');
     });
 };
-
+const createUserTableIfNotExists =(connection)=>{
+  const createUserTable = `
+    CREATE TABLE users (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      username VARCHAR(50) UNIQUE NOT NULL,
+      password VARCHAR(255) NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `
+  connection.query(createUserTable, (err) => {
+    if (err) {
+      console.error('Error creating user table: ', err);
+      return;
+    }
+    console.log('User table created');
+  });
+}
 module.exports = {
-    createTablesIfNotExist
+    createTablesIfNotExist,
+    createUserTableIfNotExists
 }
