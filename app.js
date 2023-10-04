@@ -1,9 +1,14 @@
 const express = require('express');
 const mysql = require('mysql2');
+const me = require('./team');
+const dbTables = require('./database')
+//const multer = require('multer');
+const userService = require('./user');
 
 const app = express();
 app.use(express.static("public"))
 app.use(express.urlencoded({ extended: true }))
+app.use(express.json());
 
 const config = require('./config');
 const connection = mysql.createPool(config.database);
@@ -13,12 +18,14 @@ app.use(express.static("public"))
 
 
 const home = (req, res) =>{
+    dbTables.createTablesIfNotExist(connection);
     const data = {title: "Home"}
     res.render("index", data)
 }
 
-
+//app.post("/upload/logo", multer().single('logoFile'),userService.uploadLogo)
 app.get('/', home)
+app.post('/login', userService.signUp)
 
 app.listen(3000,()=>{
     console.log('listening');
