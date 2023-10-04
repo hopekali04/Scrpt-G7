@@ -3,7 +3,7 @@ const documents = (req, res) =>{
     res.render("documents", data)
   }
   // Post(/documents)
-  const Createdocuments = (req, res) =>{
+  const Createdocuments = (req, res, connection) =>{
       data = req.body
       connection.query("INSERT INTO documents SET ?", data, (error, results)=>{
           if (error){
@@ -14,7 +14,7 @@ const documents = (req, res) =>{
       })
   }
   // Get(/documents/:id)
-  const getSingledocuments = (req, res) => {
+  const getSingledocuments = (req, res, connection) => {
     const memberId = req.params.id; 
   
     connection.query('SELECT * FROM documents WHERE id = ? AND deleted_at IS NULL LIMIT 1', memberId, (error, results) => {
@@ -34,7 +34,7 @@ const documents = (req, res) =>{
     });
   };
   // Get(/documentss/)
-  const getAlldocumentss = (req, res) => {
+  const getAlldocumentss = (req, res, connection) => {
     connection.query('SELECT * FROM documents WHERE deleted_at IS NULL', (error, results) => {
       if (error) {
         console.error(error);
@@ -52,7 +52,7 @@ const documents = (req, res) =>{
     })
   };
   // Post(/documents/update/:id)
-  const updatedocuments = (req, res) => {
+  const updatedocuments = (req, res, connection) => {
     const memberId = req.params.id;
     const updatedData = req.body;
   
@@ -73,7 +73,7 @@ const documents = (req, res) =>{
     });
   };
   // delete(/documents/:id)
-  const deletedocuments = (req, res) => {
+  const deletedocuments = (req, res, connection) => {
     // performs a soft delete
     const memberId = req.params.id;
   

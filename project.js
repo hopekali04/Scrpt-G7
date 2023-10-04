@@ -3,7 +3,7 @@ const projects = (req, res) =>{
     res.render("projects", data)
   }
   // Post(/projects)
-  const CreateProject = (req, res) =>{
+  const CreateProject = (req, res, connection) =>{
       data = req.body
       connection.query("INSERT INTO projects SET ?", data, (error, results)=>{
           if (error){
@@ -14,7 +14,7 @@ const projects = (req, res) =>{
       })
   }
   // Get(/projects/:id)
-  const getSingleprojects = (req, res) => {
+  const getSingleprojects = (req, res, connection) => {
     const memberId = req.params.id;
   
     connection.query('SELECT * FROM projects WHERE id = ? AND deleted_at IS NULL LIMIT 1', memberId, (error, results) => {
@@ -34,7 +34,7 @@ const projects = (req, res) =>{
     });
   };
   // Get(/projectss/)
-  const getAllprojectss = (req, res) => {
+  const getAllprojectss = (req, res, connection) => {
     connection.query('SELECT * FROM projects WHERE deleted_at IS NULL', (error, results) => {
       if (error) {
         console.error(error);
@@ -52,7 +52,7 @@ const projects = (req, res) =>{
     })
   };
   // Post(/projects/update/:id)
-  const updateprojects = (req, res) => {
+  const updateprojects = (req, res, connection) => {
     const projectId = req.params.id;
     const updatedData = req.body;
   
@@ -73,7 +73,7 @@ const projects = (req, res) =>{
     });
   };
   // delete(/projects/:id)
-  const deleteprojects = (req, res) => {
+  const deleteprojects = (req, res, connection) => {
     // performs a soft delete
     const memberId = req.params.id;
   
