@@ -42,6 +42,12 @@ app.get("/teams", (req, res) => {teamService.getAllTeams(req, res, connection)})
 app.post("/team/:id", (req, res) => {teamService.updateTeam(req, res, connection)})
 app.delete("/team/:id", (req, res) => {teamService.deleteTeam(req, res, connection)})
 // DOCUMENTS
+app.post("/document", (req, res) => {documentService.Createdocuments(req, res, connection)})
+app.get("/document/:id", (req, res) => {documentService.getSingledocuments(req, res, connection)})
+app.get("/documents", (req, res) => {documentService.getAlldocumentss(req, res, connection)})
+app.post("/document/:id", (req, res) => {documentService.updatedocuments(req, res, connection)})
+app.delete("/document/:id", (req, res) => {documentService.deletedocuments(req, res, connection)})
+// PROJECTS
 //REPORTS
 
 app.listen(3000,()=>{
