@@ -3,47 +3,51 @@
 //const fs = require('fs');
 const bcrypt = require('bcrypt');
 
-const createUser = (data, connection) => {
-  connection.query("INSERT INTO users SET ?", data, (error, results)=>{
-    if (error){
-        console.log(error.sqlMessage)
-        return error.sqlMessage;
-    }else{
-      return null;
-        //console.log("user created successfully")
+const createUser = (data, connection, callback) => {
+  connection.query("INSERT INTO users SET ?", data, (error, results) => {
+    if (error) {
+      console.log(error.sqlMessage);
+      callback(error.sqlMessage);
+    } else {
+      callback(null);
     }
-  })
-}
-const signUp = (req, res, connection) => {
-    data = req.body
-    //console.log(data);
-    const loginRequest = {
-        username: data.username,
-        password: data.password,
-    }
-    //console.log(loginRequest)
-    if (data.password !== data.confirmPassword){
-        console.log("Passwords do not match")
-        return res.status(401).send('Passwords do not match');
-    }else{
+  });
+};
 
-      const saltRounds = 10
-      bcrypt.hash(loginRequest.password, saltRounds, function(err, hash) {
-          if (err) {
-            console.log("err happened")
-          }
-          // save to db
-          loginRequest.password = hash
-          const me = createUser(loginRequest, connection)
-          console.log(me)
-          if (me) {    
-            //console.log(err)
-            return res.status(500).send(me);
-          }
+const signUp = (req, res, connection) => {
+  data = req.body;
+  const loginRequest = {
+    username: data.username,
+    password: data.password,
+  };
+
+  if (data.password !== data.confirmPassword) {
+    console.log("Passwords do not match");
+    return res.status(401).send('Passwords do not match');
+  } else {
+    const saltRounds = 10;
+    bcrypt.hash(loginRequest.password, saltRounds, function (err, hash) {
+      if (err) {
+        console.log("Error occurred while hashing password");
+        return res.status(500).send("Error occurred while hashing password");
+      }
+
+      // Update the password with the hashed password
+      loginRequest.password = hash;
+
+      // Call createUser with a callback to handle errors
+      createUser(loginRequest, connection, (error) => {
+        if (error) {
+          console.log("Error occurred while creating user:", error);
+          return res.status(500).send(error);
+        } else {
+          console.log("User created successfully");
+          return res.status(200).send('User created successfully');
+        }
       });
-      return res.status(200).send('User created successfully');
-    }
-}
+    });
+  }
+};
 const login = (req, res) =>{
     const { username, password } = req.body;
     // Load hash from your password DB.
