@@ -2,30 +2,46 @@
 //const mime = require('mime-types');
 //const fs = require('fs');
 const bcrypt = require('bcrypt');
-const signUp = (req, res) => {
+
+const createUser = (data, connection) => {
+  connection.query("INSERT INTO users SET ?", data, (error, results)=>{
+    if (error){
+        console.log(error.sqlMessage)
+        return error.sqlMessage;
+    }else{
+      return null;
+        //console.log("user created successfully")
+    }
+  })
+}
+const signUp = (req, res, connection) => {
     data = req.body
-    console.log(data);
+    //console.log(data);
     const loginRequest = {
         username: data.username,
         password: data.password,
-        confirmPassword: data.confirmPassword,
     }
-    const saltRounds = 10
-    bcrypt.hash(loginRequest.confirmPassword, saltRounds, function(err, hash) {
-      // save to db
-      if (err) {
-        // return error
-        console.log("err happened")
-      }
-      console.log(hash)
-    });
     //console.log(loginRequest)
-    if (loginRequest.password !== loginRequest.confirmPassword){
+    if (data.password !== data.confirmPassword){
         console.log("Passwords do not match")
         return res.status(401).send('Passwords do not match');
     }else{
-    console.log("loginRequest Passed")
-    return res.status(200).send('Passwords match');
+
+      const saltRounds = 10
+      bcrypt.hash(loginRequest.password, saltRounds, function(err, hash) {
+          if (err) {
+            console.log("err happened")
+          }
+          // save to db
+          loginRequest.password = hash
+          const me = createUser(loginRequest, connection)
+          console.log(me)
+          if (me) {    
+            //console.log(err)
+            return res.status(500).send(me);
+          }
+      });
+      return res.status(200).send('User created successfully');
     }
 }
 const login = (req, res) =>{
