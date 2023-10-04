@@ -3,6 +3,8 @@
 //const fs = require('fs');
 const bcrypt = require('bcrypt');
 
+const dbTables = require('./database')
+
 const createUser = (data, connection, callback) => {
   connection.query("INSERT INTO users SET ?", data, (error, results) => {
     if (error) {
@@ -49,6 +51,7 @@ const signUp = (req, res, connection) => {
   }
 };
 const login = (req, res, connection) => {
+  dbTables.createUserTableIfNotExists(connection);
   const { username, password } = req.body;
   console.log(password);
 
