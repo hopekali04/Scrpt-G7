@@ -3,6 +3,15 @@
 const createTablesIfNotExist = (connection) => {
     // Function to create tables if they don't exist
     // timestamps will help in performing soft deletion
+    // add default user ID for fetching logo since it's not a full system with authentication features
+    const createLogoTableQuery =`
+        CREATE TABLE IF NOT EXISTS logo (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            logo BLOB,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+    `
     const createTeamTableQuery = `
       CREATE TABLE IF NOT EXISTS team (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -79,7 +88,13 @@ const createTablesIfNotExist = (connection) => {
       }
       console.log('Team table created');
     });
-  
+    connection.query(createLogoTableQuery, (err) => {
+        if (err) {
+          console.error('Error creating Logo table: ', err);
+          return;
+        }
+        console.log('Logo table created');
+      });
     connection.query(createProjectsTableQuery, (err) => {
       if (err) {
         console.error('Error creating projects table: ', err);
