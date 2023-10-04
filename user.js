@@ -2,53 +2,102 @@
 //const mime = require('mime-types');
 //const fs = require('fs');
 const bcrypt = require('bcrypt');
-const signUp = (req, res) => {
-    data = req.body
-    console.log(data);
-    const loginRequest = {
-        username: data.username,
-        password: data.password,
-        confirmPassword: data.confirmPassword,
+
+const dbTables = require('./database')
+
+const createUser = (data, connection, callback) => {
+  connection.query("INSERT INTO users SET ?", data, (error, results) => {
+    if (error) {
+      console.log(error.sqlMessage);
+      callback(error.sqlMessage);
+    } else {
+      callback(null);
     }
-    const saltRounds = 10
-    bcrypt.hash(loginRequest.confirmPassword, saltRounds, function(err, hash) {
-      // save to db
+  });
+};
+
+const signUp = (req, res, connection) => {
+  data = req.body;
+  const loginRequest = {
+    username: data.username,
+    password: data.password,
+  };
+
+  if (data.password !== data.confirmPassword) {
+    console.log("Passwords do not match");
+    return res.status(401).send('Passwords do not match');
+  } else {
+    const saltRounds = 10;
+    bcrypt.hash(loginRequest.password, saltRounds, function (err, hash) {
       if (err) {
-        // return error
-        console.log("err happened")
+        console.log("Error occurred while hashing password");
+        return res.status(500).send("Error occurred while hashing password");
       }
-      console.log(hash)
-    });
-    //console.log(loginRequest)
-    if (loginRequest.password !== loginRequest.confirmPassword){
-        console.log("Passwords do not match")
-        return res.status(401).send('Passwords do not match');
-    }else{
-    console.log("loginRequest Passed")
-    return res.status(200).send('Passwords match');
-    }
-}
-const login = (req, res) =>{
-    const { username, password } = req.body;
-    // Load hash from your password DB.
-    //bcrypt.compare(myPlaintextPassword, hash, function(err, result) {
-      // result == true
-    //});
-    
 
-    if (!user) {
-        return res.status(401).json({ message: 'Invalid credentials' });
-    }
+      // Update the password with the hashed password
+      loginRequest.password = hash;
 
-    // Compare the hashed password with the entered password
-    bcrypt.compare(password, user.passwordHash, (err, result) => {
-        if (err || !result) {
-        return res.status(401).json({ message: 'Invalid credentials' });
+      // Call createUser with a callback to handle errors
+      createUser(loginRequest, connection, (error) => {
+        if (error) {
+          console.log("Error occurred while creating user:", error);
+          return res.status(500).send(error);
+        } else {
+          console.log("User created successfully");
+          return res.status(200).send('User created successfully');
         }
-
-        res.status(200).json({ message: 'Login successful' });
+      });
     });
-}
+  }
+};
+const login = (req, res, connection) => {
+  dbTables.createUserTableIfNotExists(connection);
+  const { username, password } = req.body;
+  console.log(password);
+
+  // Query the database to get the user with the provided username
+  connection.query("SELECT * FROM users WHERE username = ?", username, (error, results) => {
+    if (error) {
+      console.log(error.sqlMessage);
+      return res.status(500).json({ message: 'An error occurred during login' });
+    }
+    console.log(results);
+
+    if (results.length === 0) {
+      return res.status(500).json({ message: 'Invalid credentials' });
+    }
+
+    const user = results[0];
+    // Compare the hashed password with the entered password
+    comparePasswords(password, user.password)
+      .then((isPasswordCorrect) => {
+        if (isPasswordCorrect) {
+          console.log(isPasswordCorrect);
+          return res.status(200).json({ message: 'Password is correct!'});
+        } else {
+          return res.status(500).json({ message: 'Password is incorrect!' });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        return res.status(500).json({ message: 'An error occurred during login' });
+      });
+  });
+};
+
+const comparePasswords = (password, hashedPassword) => {
+  // async function to run the bcrpt comparison on the password & it's hash
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(password, hashedPassword, (error, isPasswordCorrect) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(isPasswordCorrect);
+      }
+    });
+  });
+};
+
 const getLogo = (req, res) => {
   try {
     connection.query('SELECT * FROM logo LIMIT 1', (error, results) => {
@@ -116,7 +165,8 @@ const uploadLogo = (req, res) => {
     });
 }
 module.exports = {
-    signUp
+    signUp,
+    login
     //uploadLogo,
     //getLogo
 }

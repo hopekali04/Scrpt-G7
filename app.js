@@ -1,9 +1,13 @@
 const express = require('express');
 const mysql = require('mysql2');
-const me = require('./team');
-const dbTables = require('./database')
+
 //const multer = require('multer');
+const dbTables = require('./database')
+
 const userService = require('./user');
+const teamService = require('./team');
+const documentService = require('./documents');
+const projectService = require('./project');
 
 const app = express();
 app.use(express.static("public"))
@@ -19,13 +23,15 @@ app.use(express.static("public"))
 
 const home = (req, res) =>{
     dbTables.createTablesIfNotExist(connection);
+    //dbTables.createUserTableIfNotExists(connection);
     const data = {title: "Home"}
     res.render("index", data)
 }
 
 //app.post("/upload/logo", multer().single('logoFile'),userService.uploadLogo)
 app.get('/', home)
-app.post('/login', userService.signUp)
+app.post('/signup', (req, res) => {userService.signUp(req, res, connection)})
+app.post('/login', (req, res) => {userService.login(req, res, connection)})
 
 app.listen(3000,()=>{
     console.log('listening');
