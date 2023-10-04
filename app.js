@@ -19,13 +19,14 @@ app.use(express.static("public"))
 
 const home = (req, res) =>{
     dbTables.createTablesIfNotExist(connection);
+    dbTables.createUserTableIfNotExists(connection);
     const data = {title: "Home"}
     res.render("index", data)
 }
 
 //app.post("/upload/logo", multer().single('logoFile'),userService.uploadLogo)
 app.get('/', home)
-app.post('/login', userService.signUp)
+app.post('/signup', (req, res) => {userService.signUp(req, res, connection)})
 
 app.listen(3000,()=>{
     console.log('listening');
