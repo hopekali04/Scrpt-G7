@@ -36,9 +36,12 @@ app.post('/login', (req, res) => {userService.login(req, res, connection)})
 
 //CALENDAR
 // TEAM
-app.post("/team", )
+app.post("/team", (req, res) => {teamService.CreateTeam(req, res, connection)})
+app.get("/team/:id", (req, res) => {teamService.getSingleTeam(req, res, connection)})
+app.get("/teams", (req, res) => {teamService.getAllTeams(req, res, connection)})
+app.post("/team/:id", (req, res) => {teamService.updateTeam(req, res, connection)})
+app.delete("/team/:id", (req, res) => {teamService.deleteTeam(req, res, connection)})
 // DOCUMENTS
-// PROJECTS
 //REPORTS
 
 app.listen(3000,()=>{
