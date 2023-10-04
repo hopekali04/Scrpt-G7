@@ -41,13 +41,20 @@ app.get("/team/:id", (req, res) => {teamService.getSingleTeam(req, res, connecti
 app.get("/teams", (req, res) => {teamService.getAllTeams(req, res, connection)})
 app.post("/team/:id", (req, res) => {teamService.updateTeam(req, res, connection)})
 app.delete("/team/:id", (req, res) => {teamService.deleteTeam(req, res, connection)})
+
 // DOCUMENTS
 app.post("/document", (req, res) => {documentService.Createdocuments(req, res, connection)})
 app.get("/document/:id", (req, res) => {documentService.getSingledocuments(req, res, connection)})
 app.get("/documents", (req, res) => {documentService.getAlldocumentss(req, res, connection)})
 app.post("/document/:id", (req, res) => {documentService.updatedocuments(req, res, connection)})
 app.delete("/document/:id", (req, res) => {documentService.deletedocuments(req, res, connection)})
+
 // PROJECTS
+app.post("/project", (req, res) => {projectService.CreateProject(req, res, connection)})
+app.get("/project/:id", (req, res) => {projectService.getSingleprojects(req, res, connection)})
+app.get("/projects", (req, res) => {projectService.getAllprojectss(req, res, connection)})
+app.post("/project/:id", (req, res) => {projectService.updateprojects(req, res, connection)})
+app.delete("/project/:id", (req, res) => {projectService.deleteprojects(req, res, connection)})
 //REPORTS
 
 app.listen(3000,()=>{
