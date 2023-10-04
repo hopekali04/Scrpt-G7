@@ -48,27 +48,53 @@ const signUp = (req, res, connection) => {
     });
   }
 };
-const login = (req, res) =>{
-    const { username, password } = req.body;
-    // Load hash from your password DB.
-    //bcrypt.compare(myPlaintextPassword, hash, function(err, result) {
-      // result == true
-    //});
-    
+const login = (req, res, connection) => {
+  const { username, password } = req.body;
+  console.log(password);
 
-    if (!user) {
-        return res.status(401).json({ message: 'Invalid credentials' });
+  // Query the database to get the user with the provided username
+  connection.query("SELECT * FROM users WHERE username = ?", username, (error, results) => {
+    if (error) {
+      console.log(error.sqlMessage);
+      return res.status(500).json({ message: 'An error occurred during login' });
+    }
+    console.log(results);
+
+    if (results.length === 0) {
+      return res.status(500).json({ message: 'Invalid credentials' });
     }
 
+    const user = results[0];
     // Compare the hashed password with the entered password
-    bcrypt.compare(password, user.passwordHash, (err, result) => {
-        if (err || !result) {
-        return res.status(401).json({ message: 'Invalid credentials' });
+    comparePasswords(password, user.password)
+      .then((isPasswordCorrect) => {
+        if (isPasswordCorrect) {
+          console.log(isPasswordCorrect);
+          return res.status(200).json({ message: 'Password is correct!'});
+        } else {
+          return res.status(500).json({ message: 'Password is incorrect!' });
         }
+      })
+      .catch((error) => {
+        console.error(error);
+        return res.status(500).json({ message: 'An error occurred during login' });
+      });
+  });
+};
 
-        res.status(200).json({ message: 'Login successful' });
+const comparePasswords = (password, hashedPassword) => {
+  // async function to run the bcrpt comparison on the password & it's hash
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(password, hashedPassword, (error, isPasswordCorrect) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(isPasswordCorrect);
+      }
     });
-}
+  });
+};
+
 const getLogo = (req, res) => {
   try {
     connection.query('SELECT * FROM logo LIMIT 1', (error, results) => {
@@ -136,7 +162,8 @@ const uploadLogo = (req, res) => {
     });
 }
 module.exports = {
-    signUp
+    signUp,
+    login
     //uploadLogo,
     //getLogo
 }
