@@ -21,9 +21,9 @@ app.use(session({
     secret: 'your-secret-key',
     resave: false,
     saveUninitialized: false,
-    cookie: {
-      maxAge: 60 * 60 * 1000 // 1 hour in milliseconds
-    }
+    //cookie: {
+    //  maxAge: 60 * 60 * 1000 // 1 hour in milliseconds
+    //}
 }));
 
 // Initialize Passport
@@ -57,14 +57,19 @@ const home = (req, res) =>{
 const login = (req, res) =>{
     res.render("login")
 }
-//app.post("/upload/logo", multer().single('logoFile'),userService.uploadLogo)
+//app.post("/upload/logo",isAuthenticated, multer().single('logoFile'),userService.uploadLogo)
+
 //AUTH
-app.get('/', isAuthenticated, home)
 app.post('/signup', (req, res) => {userService.signUp(req, res, connection)})
 app.post('/login', (req, res) => {userService.login(req, res, connection)})
 app.get('/login', login)
 
+/// Authenticate Routes
+
+app.get('/', isAuthenticated, home)
+
 //CALENDAR
+
 // TEAM
 app.post("/team",isAuthenticated, (req, res) => {teamService.CreateTeam(req, res, connection)})
 app.get("/team/:id",isAuthenticated, (req, res) => {teamService.getSingleTeam(req, res, connection)})
