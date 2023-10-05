@@ -58,29 +58,6 @@ const login = (req, res) =>{
     res.render("login")
 }
 
-const viewTeams = (req, res) =>{
-    // fetch team data from  backened server
-    // the response will be an array of teams
-    teamService.getAllTeams(req, res, connection, (error, data) => {
-        if (error) {
-          res.status(500).send('Error retrieving teams');
-        } else {
-          console.log(data);
-          res.render("viewTeam", { team: data });
-        }
-    });
-}
-const viewProjects = (req, res) =>{
-    projectService.getAllprojectss(req, res, connection, (error, data) => {
-        if (error) {
-          res.status(500).send('Error retrieving projects');
-        } else {
-          //console.log(data);
-          res.render("projects", { projects: data });
-        }
-    });
-}
-
 const signUp = (req, res) =>{
     res.render("signup")
 }
@@ -101,7 +78,7 @@ app.get('/', isAuthenticated, home)
 // TEAM
 app.post("/team",isAuthenticated, (req, res) => {teamService.CreateTeam(req, res, connection)})
 app.get("/team/:id",isAuthenticated, (req, res) => {teamService.getSingleTeam(req, res, connection)})
-app.get("/teams",isAuthenticated, viewTeams)
+app.get("/teams",isAuthenticated, (req, res) => {teamService.getAllTeams(req, res, connection)})
 app.post("/team/:id",isAuthenticated, (req, res) => {teamService.updateTeam(req, res, connection)})
 app.delete("/team/:id",isAuthenticated, (req, res) => {teamService.deleteTeam(req, res, connection)})
 
@@ -115,7 +92,7 @@ app.delete("/document/:id",isAuthenticated, (req, res) => {documentService.delet
 // PROJECTS
 app.post("/project",isAuthenticated, (req, res) => {projectService.CreateProject(req, res, connection)})
 app.get("/project/:id",isAuthenticated, (req, res) => {projectService.getSingleprojects(req, res, connection)})
-app.get("/projects",isAuthenticated,viewProjects)
+app.get("/projects",isAuthenticated,(req, res) => {projectService.getAllprojectss(req, res, connection)})
 app.post("/project/:id",isAuthenticated, (req, res) => {projectService.updateprojects(req, res, connection)})
 app.delete("/project/:id",isAuthenticated, (req, res) => {projectService.deleteprojects(req, res, connection)})
 //REPORTS
