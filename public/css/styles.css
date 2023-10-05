@@ -178,3 +178,29 @@ button a {
 button:hover {
   background-color: #0056b3;
 }
+
+.crop-details {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.crop-details h2 {
+  color: #333;
+  margin-top: 0;
+}
+
+.crop-details p {
+  margin: 0;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.back-link {
+  display: block;
+  margin-top: 20px;
+  text-decoration: none;
+  color: #fafafa;
+}
