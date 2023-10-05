@@ -130,3 +130,32 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  border: 1px solid #ddd;
+}
+
+/* the table header */
+.styled-table th {
+  background-color: #43369F; /* Blue background color */
+  color: white; /* White text color */
+  text-align: left;
+  padding: 10px;
+  /*border: 1px solid #ddd;*/
+}
+
+/* the table rows */
+.styled-table td {
+  background-color: white; /* White background color */
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+/* Alternating row colors */
+.styled-table tbody tr:nth-child(even) {
+  background-color: white; /* White background color for even rows */
+}
+

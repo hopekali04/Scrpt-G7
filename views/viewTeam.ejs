@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Data</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    <div class="main">
+    <%- include('partials/header') %>
+    <div class="content">
+  <h1>Team Data</h1>
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Role</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Created At</th>
+        <th>Updated At</th>
+        <th>Deleted At</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% team.forEach(team => { %>
+        <tr>
+          <td><%= team.id %></td>
+          <td><%= team.name %></td>
+          <td><%= team.role %></td>
+          <td><%= team.email %></td>
+          <td><%= team.phone %></td>
+          <td><%= team.created_at %></td>
+          <td><%= team.updated_at %></td>
+          <td><%= team.deleted_at %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+    </div>
+    </div>
+</body>
+</html>
