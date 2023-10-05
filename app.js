@@ -10,7 +10,7 @@ const userService = require('./api/user');
 const teamService = require('./api/team');
 const documentService = require('./api/documents');
 const projectService = require('./api/project');
-const cropService = require('./crops');
+const cropService = require('./api/crops');
 
 const app = express();
 app.use(express.static("public"))
@@ -77,11 +77,12 @@ app.get('/', isAuthenticated, home)
 //CALENDAR
 
 // CROP
-app.post("/crop",isAuthenticated, (req, res) => {cropService.CreateTeam(req, res, connection)})
-app.get("/crop/:id",isAuthenticated, (req, res) => {cropService.getSingleCrop(req, res, connection)})
-app.get("/crops",isAuthenticated, (req, res) => {cropService.getCrops(req, res, connection)})
-app.post("/crop/:id",isAuthenticated, (req, res) => {cropService.updateCrop(req, res, connection)})
-app.delete("/crop/:id",isAuthenticated, (req, res) => {cropService.deleteCrop(req, res, connection)})
+app.get("/crop", isAuthenticated,(req, res) => {cropService.getCreatecrop(req, res)} )
+app.post("/crop",isAuthenticated, (req, res) => {cropService.Createcrop(req, res, connection)})
+app.get("/crop/:id",isAuthenticated, (req, res) => {cropService.getSinglecrop(req, res, connection)})
+app.get("/crops",isAuthenticated, (req, res) => {cropService.getAllcrops(req, res, connection)})
+app.post("/crop/:id",isAuthenticated, (req, res) => {cropService.updatecrop(req, res, connection)})
+app.post("/deletecrop/:id",isAuthenticated, (req, res) => {cropService.deletecrop(req, res, connection)})
 
 // TEAM
 app.post("/team",isAuthenticated, (req, res) => {teamService.CreateTeam(req, res, connection)})
