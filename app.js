@@ -6,10 +6,10 @@ const passport = require('passport');
 //const multer = require('multer');
 const dbTables = require('./database')
 
-const userService = require('./user');
-const teamService = require('./team');
-const documentService = require('./documents');
-const projectService = require('./project');
+const userService = require('./api/user');
+const teamService = require('./api/team');
+const documentService = require('./api/documents');
+const projectService = require('./api/project');
 const cropService = require('./crops');
 
 const app = express();
@@ -58,12 +58,17 @@ const home = (req, res) =>{
 const login = (req, res) =>{
     res.render("login")
 }
+
+const signUp = (req, res) =>{
+    res.render("signup")
+}
 //app.post("/upload/logo",isAuthenticated, multer().single('logoFile'),userService.uploadLogo)
 
 //AUTH
 app.post('/signup', (req, res) => {userService.signUp(req, res, connection)})
 app.post('/login', (req, res) => {userService.login(req, res, connection)})
 app.get('/login', login)
+app.get('/signup', signUp)
 
 /// Authenticate Routes
 
@@ -95,7 +100,7 @@ app.delete("/document/:id",isAuthenticated, (req, res) => {documentService.delet
 // PROJECTS
 app.post("/project",isAuthenticated, (req, res) => {projectService.CreateProject(req, res, connection)})
 app.get("/project/:id",isAuthenticated, (req, res) => {projectService.getSingleprojects(req, res, connection)})
-app.get("/projects",isAuthenticated, (req, res) => {projectService.getAllprojectss(req, res, connection)})
+app.get("/projects",isAuthenticated,(req, res) => {projectService.getAllprojectss(req, res, connection)})
 app.post("/project/:id",isAuthenticated, (req, res) => {projectService.updateprojects(req, res, connection)})
 app.delete("/project/:id",isAuthenticated, (req, res) => {projectService.deleteprojects(req, res, connection)})
 //REPORTS
