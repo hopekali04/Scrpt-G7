@@ -1,5 +1,7 @@
 const express = require('express');
 const mysql = require('mysql2');
+const session = require('express-session');
+const passport = require('passport');
 
 //const multer = require('multer');
 const dbTables = require('./database')
@@ -14,6 +16,31 @@ app.use(express.static("public"))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json());
 
+// Set up session middleware
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 60 * 60 * 1000 // 1 hour in milliseconds
+    }
+}));
+
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Protected function to check if the user is logged in
+const isAuthenticated = (req, res, next) => {
+    if (req.session.user) {
+      // User is logged in, proceed to the next middleware or route handler
+      next();
+    } else {
+      // User is not logged in, redirect to the login page
+      res.redirect('/login');
+    }
+};
+
 const config = require('./config');
 const connection = mysql.createPool(config.database);
 
@@ -27,18 +54,21 @@ const home = (req, res) =>{
     const data = {title: "Home"}
     res.render("index", data)
 }
-
+const login = (req, res) =>{
+    res.render("login")
+}
 //app.post("/upload/logo", multer().single('logoFile'),userService.uploadLogo)
 //AUTH
-app.get('/', home)
+app.get('/', isAuthenticated, home)
 app.post('/signup', (req, res) => {userService.signUp(req, res, connection)})
 app.post('/login', (req, res) => {userService.login(req, res, connection)})
+app.get('/login', login)
 
 //CALENDAR
 // TEAM
 app.post("/team", (req, res) => {teamService.CreateTeam(req, res, connection)})
 app.get("/team/:id", (req, res) => {teamService.getSingleTeam(req, res, connection)})
-app.get("/teams", (req, res) => {teamService.getAllTeams(req, res, connection)})
+app.get("/teams",isAuthenticated, (req, res) => {teamService.getAllTeams(req, res, connection)})
 app.post("/team/:id", (req, res) => {teamService.updateTeam(req, res, connection)})
 app.delete("/team/:id", (req, res) => {teamService.deleteTeam(req, res, connection)})
 
