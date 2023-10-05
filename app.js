@@ -81,6 +81,7 @@ app.get("/crop", isAuthenticated,(req, res) => {cropService.getCreatecrop(req, r
 app.post("/crop",isAuthenticated, (req, res) => {cropService.Createcrop(req, res, connection)})
 app.get("/crop/:id",isAuthenticated, (req, res) => {cropService.getSinglecrop(req, res, connection)})
 app.get("/crops",isAuthenticated, (req, res) => {cropService.getAllcrops(req, res, connection)})
+app.get("/updatecrop/:id", isAuthenticated, (req, res) => {cropService.getUpdatecrop(req, res, connection)})
 app.post("/crop/:id",isAuthenticated, (req, res) => {cropService.updatecrop(req, res, connection)})
 app.post("/deletecrop/:id",isAuthenticated, (req, res) => {cropService.deletecrop(req, res, connection)})
 
