@@ -3,7 +3,7 @@
 //const fs = require('fs');
 const bcrypt = require('bcrypt');
 
-const dbTables = require('./database')
+const dbTables = require('../database')
 
 const createUser = (data, connection, callback) => {
   connection.query("INSERT INTO users SET ?", data, (error, results) => {
