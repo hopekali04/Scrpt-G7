@@ -24,7 +24,6 @@
         <th>Description</th>
         <th>Created At</th>
         <th>Updated At</th>
-        <th>Deleted At</th>
       </tr>
     </thead>
     <tbody>
@@ -37,7 +36,21 @@
           <td><%= crop.Description %></td>
           <td><%= crop.created_at %></td>
           <td><%= crop.updated_at %></td>
-          <td><%= crop.deleted_at %></td>
+          <td>
+            <form action="/crop/<%= crop.CropID%>" method="GET">
+              <button type="submit">View</button>
+            </form>
+            </td>
+          <td>
+            <form action="/updatecrop/<%= crop.CropID%>" method="GET">
+              <button type="submit">Update</button>
+            </form>
+            </td>
+            <td>
+            <form action="/deletecrop/<%= crop.CropID%>" method="post">
+              <button type="submit">Delete</button>
+            </form>
+          </td>
         </tr>
       <% }); %>
     </tbody>
