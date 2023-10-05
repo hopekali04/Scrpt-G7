@@ -25,13 +25,15 @@ const signUp = (req, res, connection) => {
 
   if (data.password !== data.confirmPassword) {
     console.log("Passwords do not match");
-    return res.status(401).send('Passwords do not match');
+    return res.status(401).send('<script>alert("Passwords do not match");</script>');
+    //return res.status(401).send('Passwords do not match');
   } else {
     const saltRounds = 10;
     bcrypt.hash(loginRequest.password, saltRounds, function (err, hash) {
       if (err) {
-        console.log("Error occurred while hashing password");
-        return res.status(500).send("Error occurred while hashing password");
+        //console.log("Error occurred while hashing password");
+        return res.status(500).send('<script>alert("PError occurred while hashing password! Try Again Later");</script>');
+        //return res.status(500).send("Error occurred while hashing password");
       }
 
       // Update the password with the hashed password
@@ -44,7 +46,8 @@ const signUp = (req, res, connection) => {
           return res.status(500).send(error);
         } else {
           console.log("User created successfully");
-          return res.status(200).send('User created successfully');
+          return res.status(200).send('<script>alert("User created successfully!"); window.location.href = "/login";</script>');
+          //return res.status(200).send('User created successfully');
         }
       });
     });
@@ -59,12 +62,14 @@ const login = (req, res, connection) => {
   connection.query("SELECT * FROM users WHERE username = ?", username, (error, results) => {
     if (error) {
       console.log(error.sqlMessage);
+      return res.status(500).send('<script>alert("Password is incorrect!"); window.location.href = "/login";</script>');//.json({ message: 'Password is incorrect!' });
       return res.status(500).json({ message: 'An error occurred during login' });
     }
     console.log(results);
 
     if (results.length === 0) {
-      return res.status(500).json({ message: 'Invalid credentials' });
+      return res.status(500).send('<script>alert("Invalid credentials!"); window.location.href = "/login";</script>');
+      //return res.status(500).json({ message: 'Invalid credentials' });
     }
 
     const user = results[0];
@@ -77,7 +82,7 @@ const login = (req, res, connection) => {
           res.redirect('/');
           //return res.status(200).json({ message: 'Password is correct!'});
         } else {
-          return res.status(500).json({ message: 'Password is incorrect!' });
+          return res.status(500).send('<script>alert("Password is incorrect!"); window.location.href = "/login";</script>');//.json({ message: 'Password is incorrect!' });
         }
       })
       .catch((error) => {
