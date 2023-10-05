@@ -80,7 +80,25 @@ const createTablesIfNotExist = (connection) => {
         deleted_at TIMESTAMP NULL
       )
     `;
-  
+    const createCropsTableQuery = `
+      CREATE TABLE IF NOT EXISTS Crops (
+        CropID INT PRIMARY KEY AUTO_INCREMENT,
+        CropName VARCHAR(255) NOT NULL,
+        CropType VARCHAR(50),
+        PlantingSeason VARCHAR(50),
+        Description TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        deleted_at TIMESTAMP NULL
+    );
+  `  
+  connection.query(createCropsTableQuery, (err) => {
+    if (err) {
+      console.error('Error creating crops table: ', err);
+      return;
+    }
+    console.log('Team table created');
+  });
     connection.query(createTeamTableQuery, (err) => {
       if (err) {
         console.error('Error creating team table: ', err);
