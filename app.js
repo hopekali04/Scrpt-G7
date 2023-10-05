@@ -10,6 +10,7 @@ const userService = require('./user');
 const teamService = require('./team');
 const documentService = require('./documents');
 const projectService = require('./project');
+const cropService = require('./crops');
 
 const app = express();
 app.use(express.static("public"))
@@ -69,6 +70,13 @@ app.get('/login', login)
 app.get('/', isAuthenticated, home)
 
 //CALENDAR
+
+// CROP
+app.post("/crop",isAuthenticated, (req, res) => {cropService.CreateTeam(req, res, connection)})
+app.get("/crop/:id",isAuthenticated, (req, res) => {cropService.getSingleCrop(req, res, connection)})
+app.get("/crops",isAuthenticated, (req, res) => {cropService.getCrops(req, res, connection)})
+app.post("/crop/:id",isAuthenticated, (req, res) => {cropService.updateCrop(req, res, connection)})
+app.delete("/crop/:id",isAuthenticated, (req, res) => {cropService.deleteCrop(req, res, connection)})
 
 // TEAM
 app.post("/team",isAuthenticated, (req, res) => {teamService.CreateTeam(req, res, connection)})
