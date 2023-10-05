@@ -158,4 +158,23 @@ body {
 .styled-table tbody tr:nth-child(even) {
   background-color: white; /* White background color for even rows */
 }
+button {
+  background-color: #007BFF;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 10px 20px;
+  text-align: center;
+  display: inline-block;
+  text-decoration: none; /* Remove the default underline for anchor tags */
+  color: white;
+}
 
+button a {
+  color: inherit; /* Inherit the button's text color */
+  text-decoration: none; /* Remove the default underline for anchor tags */
+}
+
+button:hover {
+  background-color: #0056b3;
+}
