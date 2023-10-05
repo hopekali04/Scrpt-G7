@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Data</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    <div class="main">
+    <%- include('partials/header') %>
+    <div class="content">
+  <h1>Crop Data</h1>
+  <button><a href="/crop">Create Crop</a></button>
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>cropName</th>
+        <th>cropType</th>
+        <th>PlantingSeason</th>
+        <th>Description</th>
+        <th>Created At</th>
+        <th>Updated At</th>
+        <th>Deleted At</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% crop.forEach(crop => { %>
+        <tr>
+          <td><%= crop.CropID %></td>
+          <td><%= crop.CropName %></td>
+          <td><%= crop.CropType %></td>
+          <td><%= crop.PlantingSeason %></td>
+          <td><%= crop.Description %></td>
+          <td><%= crop.created_at %></td>
+          <td><%= crop.updated_at %></td>
+          <td><%= crop.deleted_at %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+    </div>
+    </div>
+</body>
+</html>
