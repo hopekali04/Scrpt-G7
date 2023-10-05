@@ -72,8 +72,10 @@ const login = (req, res, connection) => {
     comparePasswords(password, user.password)
       .then((isPasswordCorrect) => {
         if (isPasswordCorrect) {
-          console.log(isPasswordCorrect);
-          return res.status(200).json({ message: 'Password is correct!'});
+          req.session.user = { id: user.id, username: user.username };
+          console.log(req.session)
+          res.redirect('/');
+          //return res.status(200).json({ message: 'Password is correct!'});
         } else {
           return res.status(500).json({ message: 'Password is incorrect!' });
         }
