@@ -71,12 +71,16 @@ const viewTeams = (req, res) =>{
     });
 }
 
+const signUp = (req, res) =>{
+    res.render("signup")
+}
 //app.post("/upload/logo",isAuthenticated, multer().single('logoFile'),userService.uploadLogo)
 
 //AUTH
 app.post('/signup', (req, res) => {userService.signUp(req, res, connection)})
 app.post('/login', (req, res) => {userService.login(req, res, connection)})
 app.get('/login', login)
+app.get('/signup', signUp)
 
 /// Authenticate Routes
 
