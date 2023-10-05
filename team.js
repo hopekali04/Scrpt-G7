@@ -20,13 +20,13 @@ const getSingleTeam = (req, res, connection) => {
   connection.query('SELECT * FROM team WHERE id = ? AND deleted_at IS NULL LIMIT 1', memberId, (error, results) => {
     if (error) {
       console.error(error);
-      res.status(500).send('Error retrieving team member');
-      return;
+      //res.status(500).send('Error retrieving team member');
+      //return;
     }
 
     if (results.length === 0) {
-      res.status(404).send('Team member not found'); // user doesn't exist
-      return;
+      //res.status(404).send('Team member not found'); // user doesn't exist
+      //return;
     }
 
     const teamMember = results[0];
@@ -34,22 +34,20 @@ const getSingleTeam = (req, res, connection) => {
   });
 };
 // Get(/teams/)
-const getAllTeams = (req, res, connection) => {
+const getAllTeams = (req, res, connection, callback) => {
   connection.query('SELECT * FROM team WHERE deleted_at IS NULL', (error, results) => {
     if (error) {
       console.error(error);
-      res.status(500).send('Error retrieving teams');
-      return;
+      return callback(error, null);
     }
 
     if (results.length === 0) {
-      res.status(404).send('Teams do not exist, Create teams first');
-      return;
+      return callback(null, []);
     }
 
     const teamMembers = results;
-    res.json(teamMembers);
-  })
+    return callback(null, teamMembers);
+  });
 };
 // Post(/team/update/:id)
 const updateTeam = (req, res, connection) => {
