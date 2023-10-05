@@ -6,10 +6,10 @@ const passport = require('passport');
 //const multer = require('multer');
 const dbTables = require('./database')
 
-const userService = require('./user');
-const teamService = require('./team');
-const documentService = require('./documents');
-const projectService = require('./project');
+const userService = require('./api/user');
+const teamService = require('./api/team');
+const documentService = require('./api/documents');
+const projectService = require('./api/project');
 
 const app = express();
 app.use(express.static("public"))
