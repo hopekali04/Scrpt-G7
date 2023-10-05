@@ -32,7 +32,7 @@ const getAllTeams = (req, res, connection) => {
       res.status(500).send('Error retrieving teams');
     } else {
       //console.log(data);
-      res.render("teams", { document: data });
+      res.render("viewTeam", { team: data });
     }
 })
 };
