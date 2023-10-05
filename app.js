@@ -70,6 +70,16 @@ const viewTeams = (req, res) =>{
         }
     });
 }
+const viewProjects = (req, res) =>{
+    projectService.getAllprojectss(req, res, connection, (error, data) => {
+        if (error) {
+          res.status(500).send('Error retrieving projects');
+        } else {
+          //console.log(data);
+          res.render("projects", { projects: data });
+        }
+    });
+}
 
 const signUp = (req, res) =>{
     res.render("signup")
@@ -105,7 +115,7 @@ app.delete("/document/:id",isAuthenticated, (req, res) => {documentService.delet
 // PROJECTS
 app.post("/project",isAuthenticated, (req, res) => {projectService.CreateProject(req, res, connection)})
 app.get("/project/:id",isAuthenticated, (req, res) => {projectService.getSingleprojects(req, res, connection)})
-app.get("/projects",isAuthenticated, (req, res) => {projectService.getAllprojectss(req, res, connection)})
+app.get("/projects",isAuthenticated,viewProjects)
 app.post("/project/:id",isAuthenticated, (req, res) => {projectService.updateprojects(req, res, connection)})
 app.delete("/project/:id",isAuthenticated, (req, res) => {projectService.deleteprojects(req, res, connection)})
 //REPORTS

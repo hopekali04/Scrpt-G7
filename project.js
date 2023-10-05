@@ -34,21 +34,17 @@ const projects = (req, res) =>{
     });
   };
   // Get(/projectss/)
-  const getAllprojectss = (req, res, connection) => {
+  const getAllprojectss = (req, res, connection, callback) => {
     connection.query('SELECT * FROM projects WHERE deleted_at IS NULL', (error, results) => {
       if (error) {
-        console.error(error);
-        res.status(500).send('Error retrieving projectss');
-        return;
+        return callback(error, null);
       }
   
       if (results.length === 0) {
-        res.status(404).send('projectss do not exist, Create projectss first');
-        return;
+        return callback(null, [])
       }
   
-      const projectsResult = results;
-      res.json(projectsResult);
+      return callback(null, results);
     })
   };
   // Post(/projects/update/:id)
