@@ -57,6 +57,20 @@ const home = (req, res) =>{
 const login = (req, res) =>{
     res.render("login")
 }
+
+const viewTeams = (req, res) =>{
+    // fetch team data from  backened server
+    // the response will be an array of teams
+    teamService.getAllTeams(req, res, connection, (error, data) => {
+        if (error) {
+          res.status(500).send('Error retrieving teams');
+        } else {
+          console.log(data);
+          res.render("viewTeam", { team: data });
+        }
+    });
+}
+
 const signUp = (req, res) =>{
     res.render("signup")
 }
@@ -77,7 +91,7 @@ app.get('/', isAuthenticated, home)
 // TEAM
 app.post("/team",isAuthenticated, (req, res) => {teamService.CreateTeam(req, res, connection)})
 app.get("/team/:id",isAuthenticated, (req, res) => {teamService.getSingleTeam(req, res, connection)})
-app.get("/teams",isAuthenticated, (req, res) => {teamService.getAllTeams(req, res, connection)})
+app.get("/teams",isAuthenticated, viewTeams)
 app.post("/team/:id",isAuthenticated, (req, res) => {teamService.updateTeam(req, res, connection)})
 app.delete("/team/:id",isAuthenticated, (req, res) => {teamService.deleteTeam(req, res, connection)})
 
