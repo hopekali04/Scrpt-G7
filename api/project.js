@@ -31,7 +31,7 @@ const projectService = require('../pkg/projects');
       if (error) {
         res.status(500).send('Error retrieving documents');
       } else {
-        res.render("projects", { document: data });
+        res.render("projects", { projects: data });
       }
   })
   };
