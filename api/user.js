@@ -105,9 +105,11 @@ const comparePasswords = (password, hashedPassword) => {
   });
 };
 
-const getLogo = (req, res) => {
+const getLogo = (req, res, connection) => {
+  const userId = req.session.user.id; // Get the user ID from the session
+  //const userId = 1; // Get the user ID from the session
   try {
-    connection.query('SELECT * FROM logo LIMIT 1', (error, results) => {
+    connection.query('SELECT * FROM logo WHERE user_id = ? ', userId, (error, results) => {
       if (error) {
         console.error(error);
         res.status(500).send('Error retrieving logo');
@@ -165,5 +167,5 @@ module.exports = {
     signUp,
     login,
     uploadLogo,
-    //getLogo
+    getLogo
 }
