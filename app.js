@@ -69,6 +69,7 @@ app.post('/signup', (req, res) => {userService.signUp(req, res, connection)})
 app.post('/login', (req, res) => {userService.login(req, res, connection)})
 app.get('/login', login)
 app.get('/signup', signUp)
+app.get("/logo", isAuthenticated,(req, res) => {userService.getLogo(req, res, connection)} )
 
 const loadLogoPage = (req, res) => {
     res.render('uploadLogo')
