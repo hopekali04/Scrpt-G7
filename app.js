@@ -2,8 +2,8 @@ const express = require('express');
 const mysql = require('mysql2');
 const session = require('express-session');
 const passport = require('passport');
+const multer = require('multer');
 
-//const multer = require('multer');
 const dbTables = require('./database')
 
 const userService = require('./api/user');
@@ -44,6 +44,7 @@ const isAuthenticated = (req, res, next) => {
 
 const config = require('./config');
 const connection = mysql.createPool(config.database);
+const upload = multer(); // handles the file upload
 
 app.set("view engine", "ejs")
 app.use(express.static("public"))
@@ -51,7 +52,6 @@ app.use(express.static("public"))
 
 const home = (req, res) =>{
     dbTables.createTablesIfNotExist(connection);
-    //dbTables.createUserTableIfNotExists(connection);
     const data = {title: "Home"}
     res.render("index", data)
 }
@@ -69,6 +69,12 @@ app.post('/signup', (req, res) => {userService.signUp(req, res, connection)})
 app.post('/login', (req, res) => {userService.login(req, res, connection)})
 app.get('/login', login)
 app.get('/signup', signUp)
+
+const loadLogoPage = (req, res) => {
+    res.render('uploadLogo')
+}
+app.get("/upload", loadLogoPage)
+app.post('/upload-logo', upload.single('logo'), (req, res) => {userService.uploadLogo(req, res, connection)});
 
 /// Authenticate Routes
 
