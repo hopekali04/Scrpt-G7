@@ -7,10 +7,12 @@ const createTablesIfNotExist = (connection) => {
     const createLogoTableQuery =`
         CREATE TABLE IF NOT EXISTS logo (
             id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id INT UNIQUE,
             logo BLOB,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        );
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(ID)
+        );  
     `
     const createTeamTableQuery = `
       CREATE TABLE IF NOT EXISTS team (
