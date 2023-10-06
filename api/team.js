@@ -1,4 +1,4 @@
-const teamService = require('../pkg/team');
+const teamService = require('../services/team');
 //const connection = mysql.createPool(config.database);
 
 // Post(/team)

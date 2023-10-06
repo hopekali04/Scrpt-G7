@@ -1,4 +1,4 @@
-const cropService = require('../pkg/crops');
+const cropService = require('../services/crops');
 //const connection = mysql.createPool(config.database);
 
 // get(/crop)
