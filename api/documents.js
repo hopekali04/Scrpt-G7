@@ -1,4 +1,4 @@
-const documentService = require('../pkg/documents');
+const documentService = require('../services/documents');
 
 // Post(/documents)
 const Createdocuments = (req, res, connection) =>{

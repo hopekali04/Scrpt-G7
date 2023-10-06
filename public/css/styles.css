@@ -10,7 +10,10 @@
 body {
     display: flex;
 }
-
+.uploads{
+  position: absolute;
+  bottom: 0;
+}
 .sidebar {
     position: sticky;
     top: 0;

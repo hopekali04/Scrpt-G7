@@ -1,4 +1,4 @@
-const projectService = require('../pkg/projects');
+const projectService = require('../services/projects');
 
   // Post(/projects)
   const CreateProject = (req, res, connection) =>{

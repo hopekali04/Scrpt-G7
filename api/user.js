@@ -105,9 +105,11 @@ const comparePasswords = (password, hashedPassword) => {
   });
 };
 
-const getLogo = (req, res) => {
+const getLogo = (req, res, connection) => {
+  const userId = req.session.user.id; // Get the user ID from the session
+  //const userId = 1; // Get the user ID from the session
   try {
-    connection.query('SELECT * FROM logo LIMIT 1', (error, results) => {
+    connection.query('SELECT * FROM logo WHERE user_id = ? ', userId, (error, results) => {
       if (error) {
         console.error(error);
         res.status(500).send('Error retrieving logo');
@@ -120,8 +122,7 @@ const getLogo = (req, res) => {
       }
 
       const data = results[0];
-      const fileName = data.fileName;
-      const contentType = mime.lookup(fileName) || 'application/octet-stream';
+      const contentType = 'image/png';
       res.set('Content-Type', contentType);
       res.set('Content-Disposition', 'inline');
       res.send(data.logo);
@@ -149,31 +150,22 @@ connection.query('SELECT logo FROM logo LIMIT 1', (error, results) => {
 
 // app.post('/uploadLogo', multer().single('logoFile'),
 // <input type="file" name="logo" id="uploadLogoFile" accept="image/png, image/jpeg">
-const uploadLogo = (req, res) => {
-    const file = req.file;
-    if (!file) {
-        return res.status(500).send('failed to read logo file'); 
+const uploadLogo = (req, res, connection) => {
+  const logo = req.file.buffer; // Get the logo file buffer
+  const userId = req.session.user.id; // Get the user ID from the session
+  connection.query('INSERT INTO logo (logo, user_id) VALUES (?, ?)', [logo, userId], (error, results) => {
+    if (error) {
+      console.error('Error inserting logo:', error);
+      res.status(500).send('Error inserting logo');
+    } else {
+      console.log('Logo inserted successfully');
+      res.status(200).send('Logo inserted successfully');
     }
-    const logoData = fs.readFileSync(file.path);
-
-    const logoRequest ={
-        logo: logoData,
-        logoPath: 'tenant-logo.png',
-    };
-
-    try {
-        app.TenantService.UploadTenantLogo(tenantID, logoRequest); // add logo upload logic
-    } catch (err) {
-        res.status(500).send('documents not found'); 
-    }
-
-    return res.json({
-        message: 'Logo has been uploaded',
-    });
+  });
 }
 module.exports = {
     signUp,
-    login
-    //uploadLogo,
-    //getLogo
+    login,
+    uploadLogo,
+    getLogo
 }
