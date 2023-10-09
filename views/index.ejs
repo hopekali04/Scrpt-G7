@@ -15,6 +15,7 @@
     <div class="content">
         <h1>Dashboard</h1>
         <br>
+        <!-- CROPS SECTION -->
         <% if (array.length === 0) { %>
             <!-- This will be displayed when the array length is 0 -->
         <div class="dotted-box">Please Enter Crop Data To Preview here</div> 
@@ -37,10 +38,41 @@
                     </div>
                 </div>
             <% }) %>
-            
-            
             </section>
+
+            <!-- TEAMS SECTION -->
+            <div class="content-wrap">
+                <h3>Teams</h3>
+                <div class="card-container">
+                    <% teams.forEach((item) => { %>                      
+                        <div class="card">
+                            <h4><%= item.team_name %></h4>
+                            <div class="line">
+                                <div class="icon-container">
+                                    <i style="color: rgb(0, 0, 0);" id="icon-team" class="fas fa-user-friends"></i>
+                                </div>
+                                Total Members:
+                                <span id="team-span"><%= item.total_members %></span>
+                            </div>
+                            <div class="line">
+                                <div class="icon-container">
+                                    <i style="color: rgb(255, 3, 112);" id="icon-team" class="fas fa-female"></i>
+                                </div>
+                                Females:
+                                <span id="team-span"><%= item.female_count %></span>
+                            </div>
+                            <div class="line">
+                                <div class="icon-container">
+                                    <i style="color: blue;" id="icon-team" class="fas fa-male"></i>
+                                </div>
+                                Males:
+                                <span id="team-span"><%= item.male_count %></span>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
             </div>
+            
     </div> 
     </div>
 </body>
