@@ -19,6 +19,7 @@ const teamStuff = (req, res, connection, callback) => {
             res.status(500).send('Error retrieving data');
         } else {
             console.log(data);
+            return callback(null, data);
         }
     });
 };
