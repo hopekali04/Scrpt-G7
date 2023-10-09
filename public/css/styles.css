@@ -220,3 +220,45 @@ button:hover {
   text-decoration: none;
   color: #fafafa;
 }
+.card-container {
+    display: flex;
+}
+@media (max-width: 768px) {
+    .card-container {
+      flex-direction: column;
+      flex-wrap: wrap;
+    }
+  }
+.card {
+    width: 300px;
+    background-color: #ecea84;
+    padding: 20px;
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.line {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.icon-container {
+    width: 30px;
+    text-align: center;
+}
+
+#icon-team {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+#team-span {
+    margin-left: auto;
+}
+h4 {
+    margin-top: 0;
+}
+
