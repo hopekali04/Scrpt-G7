@@ -155,14 +155,26 @@ const uploadLogo = (req, res, connection) => {
   const userId = req.session.user.id; // Get the user ID from the session
   connection.query('INSERT INTO logo (logo, user_id) VALUES (?, ?)', [logo, userId], (error, results) => {
     if (error) {
-      console.error('Error inserting logo:', error);
-      res.status(500).send('Error inserting logo');
+      if (error.code === 'ER_DUP_ENTRY') {
+        // If a previous logo exists, update it
+        // Handles duplicate entry error by running an update script instead
+        connection.query('UPDATE logo SET logo = ? WHERE user_id = ?', [logo, userId], (updateError, updateResults) => {
+          if (updateError) {
+            console.error('Error updating logo:', updateError.sqlMessage);
+            res.status(500).send('<script>alert("Failed to update logo, try Later"); window.location.href = "/upload";</script>');
+          } else {
+            res.status(200).send('<script>alert("Logo Updated!"); window.location.href = "/";</script>');
+          }
+        });
+      } else {
+        console.error('Error inserting logo:', error.sqlMessage);
+        res.status(500).send('<script>alert("Failed to update logo, try Later"); window.location.href = "/upload";</script>');
+      }
     } else {
-      console.log('Logo inserted successfully');
-      res.status(200).send('Logo inserted successfully');
+      res.status(200).send('<script>alert("Logo Created !"); window.location.href = "/";</script>');
     }
-  });
-}
+  });  
+};
 module.exports = {
     signUp,
     login,
