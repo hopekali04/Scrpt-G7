@@ -22,6 +22,14 @@ h1 {
     text-align: center;
     color: #333;
 }
+input[type="file"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #c3d3e4;
+}
 </style>
 <body>
     <%- include('partials/navbar') %>
@@ -31,9 +39,9 @@ h1 {
         <h1>Upload Logo</h1>
         <form class="upload" action="/upload-logo" method="post" enctype="multipart/form-data">
             <label for="logo">Select Logo:</label>
-            <br>
+            <br><br>
             <input type="file" name="logo" id="logo" accept=".png, .jpg, .jpeg" required>
-            <br>
+            <br><br>
             <button><input type="submit" value="Upload Logo" style="background-color: transparent;"></button>
         </form>
     </div>
