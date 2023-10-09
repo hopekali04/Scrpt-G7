@@ -11,7 +11,9 @@ const teamService = require('./api/team');
 const documentService = require('./api/documents');
 const projectService = require('./api/project');
 const cropService = require('./api/crops');
+const memberService = require('./api/members');
 const cropViews = require('./api/cropViews');
+const memberViews = require('./api/membersView');
 
 const app = express();
 app.use(express.static("public"))
@@ -55,9 +57,11 @@ const home = (req, res) => {
     cropViews.getTotlcropView(req, res, connection, (err, view) => {
         console.log("I am ",view);
         dbTables.createTablesIfNotExist(connection);
-    const data = { title: "Home" };
-    const arr = ["hello", "world"];
-    res.render("index", { array: view, data: data });
+        const data = { title: "Home" };
+        const arr = ["hello", "world"];
+        memberViews.teamStuff(req, res, connection, (err, teamData) => {
+            res.render("index", { array: view, data: data, teams: teamData});
+        })
     })
     
 };
@@ -69,7 +73,7 @@ const signUp = (req, res) =>{
     res.render("signup")
 }
 //app.post("/upload/logo",isAuthenticated, multer().single('logoFile'),userService.uploadLogo)
-app.get("/me", (req, res) => {cropViews.getTotlcropView(req, res, connection, (err, view) => {
+app.get("/me", (req, res) => {memberViews.teamStuff(req, res, connection, (err, view) => {
     console.log("I am ",view);
 })} )
 //AUTH
@@ -90,6 +94,14 @@ app.post('/upload-logo', upload.single('logo'), (req, res) => {userService.uploa
 app.get('/', isAuthenticated, home)
 
 //CALENDAR
+// TEAM MEMBERS
+app.get("/members", isAuthenticated,(req, res) => {memberService.getAllMembers(req, res, connection)})
+app.post("/create-member",isAuthenticated, (req, res) => {memberService.Create(req, res, connection)})
+app.get("/create-member", isAuthenticated,(req, res) => {memberService.getCreate(req, res, connection)})
+app.get("/view-member/:id", isAuthenticated,(req, res) => {memberService.getSingle(req, res, connection)})
+app.get("/update-member/:id",isAuthenticated, (req, res) => {memberService.getUpdate(req, res, connection)})
+app.post("/update-member/:id",isAuthenticated, (req, res) => {memberService.updateMember(req, res, connection)})
+app.post("/delete-member/:id",isAuthenticated, (req, res) => {memberService.deleteMember(req, res, connection)})
 
 // CROP
 app.get("/crop", isAuthenticated,(req, res) => {cropService.getCreatecrop(req, res)} )

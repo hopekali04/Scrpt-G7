@@ -26,6 +26,18 @@ const createTablesIfNotExist = (connection) => {
         deleted_at TIMESTAMP NULL
       )
     `;
+    const createTeamMemberTableQueery = ` CREATE TABLE IF NOT EXISTS teamMembers (
+      member_id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      email VARCHAR(255) NOT NULL,
+      gender VARCHAR(10) NOT NULL,
+      team_id INT NOT NULL, 
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      deleted_at TIMESTAMP NULL,
+      FOREIGN KEY (team_id) REFERENCES team(id)
+    );
+    `
   
     const createProjectsTableQuery = `
       CREATE TABLE IF NOT EXISTS projects (
@@ -107,6 +119,13 @@ const createTablesIfNotExist = (connection) => {
         return;
       }
       console.log('Team table created');
+    });
+    connection.query(createTeamMemberTableQueery, (err) => {
+      if (err) {
+        console.error('Error creating members table: ', err);
+        return;
+      }
+      console.log('Team Members table created');
     });
     connection.query(createLogoTableQuery, (err) => {
         if (err) {
