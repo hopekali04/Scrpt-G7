@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Data</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    <div class="main">
+    <%- include('partials/header') %>
+    <div class="content">
+        <h1>Members</h1>
+        <button><a href="/create-member">Add Member</a></button>
+        <table class="styled-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>email</th>
+                <th>gender</th>
+                <th>team_id</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% array.forEach(member => { %>
+                <tr>
+                <td><%= member.member_id %></td>
+                <td><%= member.name %></td>
+                <td><%= member.email %></td>
+                <td><%= member.gender %></td>
+                <td><%= member.team_id %></td>
+                <td><%= member.created_at %></td>
+                <td><%= member.updated_at %></td>
+                </tr>
+                <td>
+                    <form action="/view-member/<%= member.member_id%>" method="GET">
+                    <button type="submit">View</button>
+                    </form>
+                    </td>
+                <td>
+                    <form action="/update-member/<%= member.member_id%>" method="GET">
+                    <button type="submit">Update</button>
+                    </form>
+                    </td>
+                    <td>
+                    <form action="/delete-member/<%= member.member_id%>" method="post">
+                    <button type="submit">Delete</button>
+                    </form>
+                </td>
+            <% }); %>
+            
+            </tbody>
+        </table>
+    </div>
+    </div>
+</body>
+</html>
