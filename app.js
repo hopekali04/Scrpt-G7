@@ -11,6 +11,7 @@ const teamService = require('./api/team');
 const documentService = require('./api/documents');
 const projectService = require('./api/project');
 const cropService = require('./api/crops');
+const cropViews = require('./api/cropViews');
 
 const app = express();
 app.use(express.static("public"))
@@ -50,11 +51,16 @@ app.set("view engine", "ejs")
 app.use(express.static("public"))
 
 
-const home = (req, res) =>{
-    dbTables.createTablesIfNotExist(connection);
-    const data = {title: "Home"}
-    res.render("index", data)
-}
+const home = (req, res) => {
+    cropViews.getTotlcropView(req, res, connection, (err, view) => {
+        console.log("I am ",view);
+        dbTables.createTablesIfNotExist(connection);
+    const data = { title: "Home" };
+    const arr = ["hello", "world"];
+    res.render("index", { array: view, data: data });
+    })
+    
+};
 const login = (req, res) =>{
     res.render("login")
 }
@@ -63,7 +69,9 @@ const signUp = (req, res) =>{
     res.render("signup")
 }
 //app.post("/upload/logo",isAuthenticated, multer().single('logoFile'),userService.uploadLogo)
-
+app.get("/me", (req, res) => {cropViews.getTotlcropView(req, res, connection, (err, view) => {
+    console.log("I am ",view);
+})} )
 //AUTH
 app.post('/signup', (req, res) => {userService.signUp(req, res, connection)})
 app.post('/login', (req, res) => {userService.login(req, res, connection)})
