@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DashBoard</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
 </head>
 <body>
@@ -14,8 +15,33 @@
     <div class="content">
         <h1>Dashboard</h1>
         <br>
-        <div class="dotted-box"></div>
-    </div>
+        <% if (array.length === 0) { %>
+            <!-- This will be displayed when the array length is 0 -->
+        <div class="dotted-box">Please Enter Crop Data To Preview here</div> 
+        <% } %>
+        <div class="content-wrap">
+            <h3>Crops</h3>
+            <section class="info-boxes">
+                <!-- Add For Loop Here -->
+            <!-- LOOP -->
+            <% array.forEach((item) => { %>
+                <div class="info-box">
+                    <div class="box-icon">
+                        <i class="icon"><i class="fa-solid fa-seedling fa-2xl"></i></i>
+                    </div>
+                    
+                    <div class="box-content">
+                        <span class="big">24</span>
+                        <span class="big"><%= item.CropName %></span>
+                        
+                    </div>
+                </div>
+            <% }) %>
+            
+            
+            </section>
+            </div>
+    </div> 
     </div>
 </body>
 </html>
