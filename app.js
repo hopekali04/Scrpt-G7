@@ -57,9 +57,11 @@ const home = (req, res) => {
     cropViews.getTotlcropView(req, res, connection, (err, view) => {
         console.log("I am ",view);
         dbTables.createTablesIfNotExist(connection);
-    const data = { title: "Home" };
-    const arr = ["hello", "world"];
-    res.render("index", { array: view, data: data });
+        const data = { title: "Home" };
+        const arr = ["hello", "world"];
+        memberViews.teamStuff(req, res, connection, (err, teamData) => {
+            res.render("index", { array: view, data: data, teams: teamData});
+        })
     })
     
 };
