@@ -123,6 +123,7 @@ body {
   flex: 1;
   background-color: #e2e2e2;
   padding: 1.2% 2% 0 2%;
+  overflow:scroll;
 }
 .dotted-box{
     width: 100%;
