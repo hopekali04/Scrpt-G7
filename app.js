@@ -54,15 +54,16 @@ app.use(express.static("public"))
 
 
 const home = (req, res) => {
-    cropViews.getTotlcropView(req, res, connection, (err, view) => {
-        console.log("I am ",view);
+    //cropViews.getTotlcropView(req, res, connection, (err, view) => {
+        //console.log("I am ",view);
         dbTables.createTablesIfNotExist(connection);
         const data = { title: "Home" };
         const arr = ["hello", "world"];
         memberViews.teamStuff(req, res, connection, (err, teamData) => {
-            res.render("index", { array: view, data: data, teams: teamData});
+            console.log(teamData)
+            res.render("index", { array: arr, data: data, teams: teamData});
         })
-    })
+    //})
     
 };
 const login = (req, res) =>{
@@ -72,6 +73,14 @@ const login = (req, res) =>{
 const signUp = (req, res) =>{
     res.render("signup")
 }
+const reports = (req, res) =>{
+    memberViews.teamStuff(req, res, connection, (err, teamData) => {
+        console.log(teamData)
+        res.render('reports', { title: 'Teams Summary', data: teamData });
+    })
+}
+
+
 //app.post("/upload/logo",isAuthenticated, multer().single('logoFile'),userService.uploadLogo)
 app.get("/me", (req, res) => {memberViews.teamStuff(req, res, connection, (err, view) => {
     console.log("I am ",view);
@@ -114,10 +123,12 @@ app.post("/deletecrop/:id",isAuthenticated, (req, res) => {cropService.deletecro
 
 // TEAM
 app.post("/team",isAuthenticated, (req, res) => {teamService.CreateTeam(req, res, connection)})
+app.get("/create-team",isAuthenticated, (req, res) => {teamService.getCreate(req, res)})
 app.get("/team/:id",isAuthenticated, (req, res) => {teamService.getSingleTeam(req, res, connection)})
 app.get("/teams",isAuthenticated, (req, res) => {teamService.getAllTeams(req, res, connection)})
 app.post("/team/:id",isAuthenticated, (req, res) => {teamService.updateTeam(req, res, connection)})
-app.delete("/team/:id",isAuthenticated, (req, res) => {teamService.deleteTeam(req, res, connection)})
+app.get("/update-team/:id",isAuthenticated, (req, res) => {teamService.getUpdate(req, res, connection)})
+app.post("/delete-team/:id",isAuthenticated, (req, res) => {teamService.deleteTeam(req, res, connection)})
 
 // DOCUMENTS
 app.post("/document",isAuthenticated, (req, res) => {documentService.Createdocuments(req, res, connection)})
@@ -133,7 +144,7 @@ app.get("/projects",isAuthenticated,(req, res) => {projectService.getAllprojects
 app.post("/project/:id",isAuthenticated, (req, res) => {projectService.updateprojects(req, res, connection)})
 app.delete("/project/:id",isAuthenticated, (req, res) => {projectService.deleteprojects(req, res, connection)})
 //REPORTS
-
+app.get("/reports", reports)
 app.listen(3000,()=>{
     console.log('listening');
 });
