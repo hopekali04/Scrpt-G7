@@ -29,7 +29,7 @@ const Create = (req, res, connection) =>{
       if (error) {
         res.status(500).send('<script>alert("Failed to create, try Later");</script>');
       } else {
-        res.redirect("/memebers")
+        res.redirect("/members")
       }
   })   
 }
