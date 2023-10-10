@@ -1,6 +1,8 @@
 const teamService = require('../services/team');
 //const connection = mysql.createPool(config.database);
-
+const getCreate = (req, res) =>{
+  res.render("createTeam") ;
+}
 // Post(/team)
 const CreateTeam = (req, res, connection) =>{
     data = req.body
@@ -12,6 +14,16 @@ const CreateTeam = (req, res, connection) =>{
       }
   })   
 }
+const getUpdate = (req, res, connection) =>{
+  const memberId = req.params.id; // crop member ID as primary key identification for each crop
+  teamService.getSingleTeam(req, res, memberId, connection, (error, data) => {
+  if (error) {
+    res.status(500).send('Error retrieving team');
+  } else {;
+    res.render("updateTeam", { team: data });
+  }
+})
+}
 // Get(/team/:id)
 const getSingleTeam = (req, res, connection) => {
   const memberId = req.params.id; // team member ID as primary key identification for each team
@@ -21,7 +33,7 @@ const getSingleTeam = (req, res, connection) => {
       res.status(500).send('Error retrieving team');
     } else {
       //console.log(data);
-      res.render("viewTeam", { document: data });
+      res.render("viewSingleTeam", { team: data });
     }
 })
 };
@@ -64,6 +76,8 @@ const deleteTeam = (req, res, connection) => {
 })  
 };
 module.exports = {
+  getUpdate,
+  getCreate,
   CreateTeam,
   updateTeam,
   getAllTeams,
