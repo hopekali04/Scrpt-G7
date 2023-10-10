@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <style>
+        .chart-container {
+            max-width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            background-color: white;
+        }
+
+        .chart {
+            margin-bottom: 20px;
+        }
+    </style>
+
+</head>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const data = <%- JSON.stringify(data) %>; // Assuming "data" is an array of objects from your database
+
+        const teamNames = data.map(item => item.team_name);
+        const totalMembers = data.map(item => item.total_members);
+        const maleCount = data.map(item => item.male_count);
+        const femaleCount = data.map(item => item.female_count);
+
+        // Define different colors for each category
+        const colors = {
+            totalMembers: 'red',
+            maleCount: 'blue',
+            femaleCount: 'green',
+        };
+
+        // Generate dataset for each category with different colors
+        const datasets = Object.keys(colors).map(key => ({
+            label: key,
+            data: key === 'totalMembers' ? totalMembers : (key === 'maleCount' ? maleCount : femaleCount),
+            backgroundColor: colors[key],
+            borderColor: colors[key],
+            borderWidth: 1,
+            yAxisID: key === 'totalMembers' ? 'totalAxis' : 'genderAxis',
+        }));
+
+        // Bar Chart
+        const ctxBar = document.getElementById('barChart').getContext('2d');
+        const dataBar = {
+            labels: teamNames, // Use team names as labels
+            datasets: datasets
+        };
+        const configBar = {
+            type: 'bar',
+            data: dataBar,
+            options: {
+                scales: {
+                    totalAxis: {
+                        position: 'left',
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Total Members',
+                        }
+                    },
+                    genderAxis: {
+                        position: 'right',
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Gender Count',
+                        }
+                    },
+                }
+            }
+        };
+        new Chart(ctxBar, configBar);
+    });
+</script>
+<body>
+    <%- include('partials/navbar') %>
+    <div class="main">
+        <%- include('partials/header') %>
+        <div class="content">
+            <div class="chart-container">
+                <h1 style="text-align: center;"><%= title %></h1>
+                <div class="chart">
+                    <h2>Bar Chart</h2>
+                    <canvas id="barChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
