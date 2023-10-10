@@ -13,6 +13,7 @@
     <%- include('partials/header') %>
     <div class="content">
   <h1>Team Data</h1>
+  <button><a href="/create-team">Add Team</a></button>
   <table class="styled-table">
     <thead>
       <tr>
@@ -23,7 +24,6 @@
         <th>Phone</th>
         <th>Created At</th>
         <th>Updated At</th>
-        <th>Deleted At</th>
       </tr>
     </thead>
     <tbody>
@@ -36,7 +36,21 @@
           <td><%= team.phone %></td>
           <td><%= team.created_at %></td>
           <td><%= team.updated_at %></td>
-          <td><%= team.deleted_at %></td>
+          <td>
+            <form action="/team/<%= team.id%>" method="GET">
+            <button type="submit">View</button>
+            </form>
+            </td>
+        <td>
+            <form action="/update-team/<%= team.id%>" method="GET">
+            <button type="submit">Update</button>
+            </form>
+            </td>
+            <td>
+            <form action="/delete-team/<%= team.id%>" method="post">
+            <button type="submit">Delete</button>
+            </form>
+        </td>
         </tr>
       <% }); %>
     </tbody>
