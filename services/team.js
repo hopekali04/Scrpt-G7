@@ -19,7 +19,7 @@ const getSingleTeam = (req, res,memberId,connection, callback) => {
     if (results.length === 0) {
       return callback(null, results)
     }
-    return callback(null, results)
+    return callback(null, results[0])
   });
 };
 const getAllTeam = (req, res, connection, callback) => {
