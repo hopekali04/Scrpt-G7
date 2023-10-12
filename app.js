@@ -138,11 +138,13 @@ app.post("/document/:id",isAuthenticated, (req, res) => {documentService.updated
 app.delete("/document/:id",isAuthenticated, (req, res) => {documentService.deletedocuments(req, res, connection)})
 
 // PROJECTS
+app.get("/create-project",isAuthenticated, (req, res) => {projectService.getCreateProject(req, res)})
 app.post("/project",isAuthenticated, (req, res) => {projectService.CreateProject(req, res, connection)})
 app.get("/project/:id",isAuthenticated, (req, res) => {projectService.getSingleprojects(req, res, connection)})
 app.get("/projects",isAuthenticated,(req, res) => {projectService.getAllprojectss(req, res, connection)})
+app.get("/update-project/:id",isAuthenticated, (req, res) => {projectService.getUpdate(req, res, connection)})
 app.post("/project/:id",isAuthenticated, (req, res) => {projectService.updateprojects(req, res, connection)})
-app.delete("/project/:id",isAuthenticated, (req, res) => {projectService.deleteprojects(req, res, connection)})
+app.post("/delete-project/:id",isAuthenticated, (req, res) => {projectService.deleteprojects(req, res, connection)})
 //REPORTS
 app.get("/reports", reports)
 app.listen(3000,()=>{
