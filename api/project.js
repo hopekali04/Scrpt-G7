@@ -3,7 +3,7 @@ const projectService = require('../services/projects');
   // Post(/projects)
   const CreateProject = (req, res, connection) =>{
       data = req.body
-      projectService.CreateProject(req, res, connection,(error, data) => {
+      projectService.CreateProject(req, res,data, connection,(error, conndata) => {
         if (error) {
           res.status(500).send('Error creating project');
         } else {
@@ -11,6 +11,20 @@ const projectService = require('../services/projects');
           res.redirect("/projects")
         }
     }) 
+  }
+  const getCreateProject = (req, res) =>{
+    res.render("createProject")
+  }
+  const getUpdate = (req, res, connection) =>{
+    const memberId = req.params.id; // crop member ID as primary key identification for each crop
+    projectService.getSingleprojects(req, res, memberId, connection, (error, data) => {
+    if (error) {
+      res.status(500).send('Error retrieving team');
+    } else {
+      console.log(data);
+      res.render("updateProject", { project: data });
+    }
+  })
   }
   // Get(/projects/:id)
   const getSingleprojects = (req, res, connection) => {
@@ -63,6 +77,8 @@ const projectService = require('../services/projects');
   })  
   };
   module.exports = {
+    getUpdate,
+    getCreateProject,
     CreateProject,
     updateprojects,
     getAllprojectss,
