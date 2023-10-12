@@ -4,26 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Project</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/forms.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
 </head>
 <body>
-    <h1>Create a New Project</h1>
-    <form action="/projects" method="POST">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br>
+    <%- include('partials/navbar') %>
+    <div class="main">
+    <%- include('partials/header') %>
+    <div class="content">
+        <div class="container">
+        <h1>Create a New Project</h1>
+        <form action="/project" method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br>
 
-        <label for="description">Description:</label>
-        <textarea id="description" name="description"></textarea><br>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description"></textarea><br>
 
-        <label for="start_date">Start Date:</label>
-        <input type="date" id="start_date" name="start_date"><br>
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date"><br>
 
-        <label for="end_date">End Date:</label>
-        <input type="date" id="end_date" name="end_date"><br>
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date" name="end_date"><br>
 
-        <label for="status">Status:</label>
-        <input type="text" id="status" name="status"><br>
+            <label for="status">Status:</label>
+            <input type="text" id="status" name="status"><br>
 
-        <button type="submit">Create Project</button>
-    </form>
+            <button type="submit">Create Project</button>
+        </form>
+        </div>
+    </div>
+    </div>
 </body>
 </html>
