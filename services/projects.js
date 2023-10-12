@@ -18,7 +18,7 @@ const getSingleprojects = (req, res,memberId, connection, callback) => {
         return callback(error, null);
       }
   
-      return callback(null, results)
+      return callback(null, results[0])
     });
 };
 const getAllprojectss = (req, res,connection, callback) => {
