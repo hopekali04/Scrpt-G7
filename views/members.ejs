@@ -60,6 +60,17 @@
     </div>
     </div>
     <script>
+        // JavaScript function to generate a timestamp string
+        function getCurrentTimestamp() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const day = now.getDate().toString().padStart(2, '0');
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            return `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
+        }
         // JavaScript function to generate CSV data for member table
         function generateCSV() {
           const rows = document.querySelectorAll('.styled-table tbody tr');
@@ -74,28 +85,26 @@
           return csvData.join('\n');
         }
       
-        // Add an event listener to the download button
+        // event listener to the download button
+        const timestamp = getCurrentTimestamp();
+        const filename = `members_${timestamp}.csv`;
         document.getElementById('downloadCSV').addEventListener('click', () => {
         
           const csvContent = generateCSV();
       
-          // Create a Blob containing the CSV data
           const blob = new Blob([csvContent], { type: 'text/csv' });
       
-          // Create a URL for the Blob
           const url = URL.createObjectURL(blob);
       
-          // Create an invisible anchor element to trigger the download
+          // invisible anchor element to trigger the download
           const a = document.createElement('a');
           a.href = url;
-          a.download = 'members.csv'; // Set the filename
+          a.download = filename; 
           a.style.display = 'none';
       
-          // Append the anchor element to the document and trigger the click event
           document.body.appendChild(a);
           a.click();
       
-          // Clean up by revoking the Blob URL
           URL.revokeObjectURL(url);
           document.body.removeChild(a);
         });
