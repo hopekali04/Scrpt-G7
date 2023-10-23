@@ -47,6 +47,11 @@ const isAuthenticated = (req, res, next) => {
 
 const config = require('./config');
 const connection = mysql.createPool(config.database);
+connection.getConnection((err) =>{
+    if (err) {
+        "error"
+    }
+})
 const upload = multer(); // handles the file upload
 
 app.set("view engine", "ejs")
@@ -54,16 +59,18 @@ app.use(express.static("public"))
 
 
 const home = (req, res) => {
-    //cropViews.getTotlcropView(req, res, connection, (err, view) => {
-        //console.log("I am ",view);
+    cropViews.getTotlcropView(req, res, connection, (err, view) => {
+        console.log("I am ",view);
         dbTables.createTablesIfNotExist(connection);
         const data = { title: "Home" };
-        const arr = ["hello", "world"];
+        const graph = {
+            maleCount: 2,
+            femaleCount: 8};
         memberViews.teamStuff(req, res, connection, (err, teamData) => {
             console.log(teamData)
-            res.render("index", { array: arr, data: data, teams: teamData});
+            res.render("index", { array: view, data: data, teams: teamData, graph : graph });
         })
-    //})
+    })
     
 };
 const login = (req, res) =>{
