@@ -14,6 +14,7 @@ const cropService = require('./api/crops');
 const memberService = require('./api/members');
 const cropViews = require('./api/cropViews');
 const memberViews = require('./api/membersView');
+const calendar = require('./api/calendar');
 
 const app = express();
 app.use(express.static("public"))
@@ -110,6 +111,14 @@ app.post('/upload-logo', upload.single('logo'), (req, res) => {userService.uploa
 app.get('/', isAuthenticated, home)
 
 //CALENDAR
+app.get("/calendar", isAuthenticated,(req, res) => {calendar.getAll(req, res, connection)})
+app.post("/create-calendar",isAuthenticated, (req, res) => {calendar.Create(req, res, connection)})
+app.get("/create-calendar", isAuthenticated,(req, res) => {calendar.getCreate(req, res, connection)})
+app.get("/view-calendar/:id", isAuthenticated,(req, res) => {calendar.getSingle(req, res, connection)})
+app.get("/update-calendar/:id",isAuthenticated, (req, res) => {calendar.getUpdate(req, res, connection)})
+app.post("/update-calendar/:id",isAuthenticated, (req, res) => {calendar.update(req, res, connection)})
+app.post("/delete-calendar/:id",isAuthenticated, (req, res) => {calendar.deleteCalendar(req, res, connection)})
+
 // TEAM MEMBERS
 app.get("/members", isAuthenticated,(req, res) => {memberService.getAllMembers(req, res, connection)})
 app.post("/create-member",isAuthenticated, (req, res) => {memberService.Create(req, res, connection)})
