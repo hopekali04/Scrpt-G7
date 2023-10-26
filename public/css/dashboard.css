@@ -7,6 +7,7 @@
   .content-wrap{
     background-color: rgb(255, 255, 255);
     padding: 5px;
+    margin-top: 0.4rem;
   }
   .content-wrap .info-boxes .info-box {
     background: rgba(255, 254, 254, 0.9);
