@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Logo</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>  
+</head>
+<style>
+    .upload {
+    width: 30vw;
+    height: 30vh;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+input[type="file"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #c3d3e4;
+}
+</style>
+<body>
+    <%- include('partials/navbar') %>
+    <div class="main">
+    <%- include('partials/header') %>
+    <div class="content">
+        <h1>Upload Logo</h1>
+        <form class="upload" action="/upload-logo" method="post" enctype="multipart/form-data">
+            <label for="logo">Select Logo:</label>
+            <br><br>
+            <input type="file" name="logo" id="logo" accept=".png, .jpg, .jpeg" required>
+            <br><br>
+            <button><input type="submit" value="Upload Logo" style="background-color: transparent;"></button>
+        </form>
+    </div>
+    </div>
+</body>
+</html>

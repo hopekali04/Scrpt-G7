@@ -1,6 +1,10 @@
 .DS_Store
 node_modules
 
+# local env files
+.env.local
+.env.*.local
+
 # Images
 images/avatars/
 images/captchas/
@@ -14,6 +18,7 @@ system/expressionengine/config/database.php
 system/expressionengine/config/config.php
 
 # Caches
+/config.js
 sized/
 thumbs/
 _thumbs/
