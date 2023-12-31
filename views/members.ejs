@@ -13,6 +13,7 @@
     <%- include('partials/header') %>
     <div class="content">
         <h1>Members</h1>
+        <button id="downloadCSV">Download CSV</button>
         <button><a href="/create-member">Add Member</a></button>
         <table class="styled-table">
             <thead>
@@ -58,5 +59,55 @@
         </table>
     </div>
     </div>
+    <script>
+        // JavaScript function to generate a timestamp string
+        function getCurrentTimestamp() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = (now.getMonth() + 1).toString().padStart(2, '0');
+            const day = now.getDate().toString().padStart(2, '0');
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            return `${year}-${month}-${day}_${hours}-${minutes}-${seconds}`;
+        }
+        // JavaScript function to generate CSV data for member table
+        function generateCSV() {
+          const rows = document.querySelectorAll('.styled-table tbody tr');
+          const csvData = [];
+      
+          // Iterate through table rows and collect member data while excluding the last three cells
+          rows.forEach(row => {
+            const rowData = Array.from(row.querySelectorAll('td:not(:nth-last-child(-n+3))')).map(cell => cell.textContent);
+            csvData.push(rowData.join(','));
+          });
+      
+          return csvData.join('\n');
+        }
+      
+        // event listener to the download button
+        const timestamp = getCurrentTimestamp();
+        const filename = `members_${timestamp}.csv`;
+        document.getElementById('downloadCSV').addEventListener('click', () => {
+        
+          const csvContent = generateCSV();
+      
+          const blob = new Blob([csvContent], { type: 'text/csv' });
+      
+          const url = URL.createObjectURL(blob);
+      
+          // invisible anchor element to trigger the download
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = filename; 
+          a.style.display = 'none';
+      
+          document.body.appendChild(a);
+          a.click();
+      
+          URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+        });
+      </script>         
 </body>
 </html>

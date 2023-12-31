@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Project</title>
+    <title>Create Project</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>   
+</head>
+<body>
+    <%- include('partials/navbar') %>
+    <div class="main">
+    <%- include('partials/header') %>
+    <div class="content">
+
+        <div class="crop-details">
+            <h1>Project Details</h1>
+            <p><strong>Name:</strong> <%= project.name %></p>
+            <p><strong>Description:</strong> <%= project.description %></p>
+            <p><strong>Start Date:</strong> <%= project.start_date %></p>
+            <p><strong>End Date:</strong> <%= project.end_date %></p>
+            <p><strong>Status:</strong> <%= project.status %></p>
+            <a href="/projects">Back to All Projects</a>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

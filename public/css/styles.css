@@ -5,7 +5,7 @@
     border: none;
     outline: none;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', Arial, Helvetica;
 }
 body {
     display: flex;
@@ -13,6 +13,12 @@ body {
 .uploads{
   position: absolute;
   bottom: 0;
+}
+.dashboard {
+  padding: 2px;
+  background-color: #dbc7c7;
+  background-color: rgba(0, 0, 255, 0.55);
+  color: black;
 }
 .sidebar {
     min-width: 50px;
@@ -221,7 +227,8 @@ button:hover {
   color: #fafafa;
 }
 .card-container {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 }
 @media (max-width: 768px) {
     .card-container {
@@ -230,13 +237,14 @@ button:hover {
     }
   }
 .card {
-    width: 300px;
-    background-color: #ecea84;
+    width: 250px;
+    background-color: rgba(26, 6, 249, 0.5);
     padding: 20px;
     border-radius: 5px;
     margin-right: 10px;
     margin-bottom: 10px;
     text-align: center;
+    border-radius: 25px;
 }
 
 .line {

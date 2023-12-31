@@ -14,6 +14,7 @@ const cropService = require('./api/crops');
 const memberService = require('./api/members');
 const cropViews = require('./api/cropViews');
 const memberViews = require('./api/membersView');
+const calendar = require('./api/calendar');
 
 const app = express();
 app.use(express.static("public"))
@@ -47,6 +48,11 @@ const isAuthenticated = (req, res, next) => {
 
 const config = require('./config');
 const connection = mysql.createPool(config.database);
+connection.getConnection((err) =>{
+    if (err) {
+        "error"
+    }
+})
 const upload = multer(); // handles the file upload
 
 app.set("view engine", "ejs")
@@ -54,16 +60,18 @@ app.use(express.static("public"))
 
 
 const home = (req, res) => {
-    //cropViews.getTotlcropView(req, res, connection, (err, view) => {
-        //console.log("I am ",view);
+    cropViews.getTotlcropView(req, res, connection, (err, view) => {
+        console.log("I am ",view);
         dbTables.createTablesIfNotExist(connection);
         const data = { title: "Home" };
-        const arr = ["hello", "world"];
+        const graph = {
+            maleCount: 2,
+            femaleCount: 8};
         memberViews.teamStuff(req, res, connection, (err, teamData) => {
             console.log(teamData)
-            res.render("index", { array: arr, data: data, teams: teamData});
+            res.render("index", { array: view, data: data, teams: teamData, graph : graph });
         })
-    //})
+    })
     
 };
 const login = (req, res) =>{
@@ -103,6 +111,14 @@ app.post('/upload-logo', upload.single('logo'), (req, res) => {userService.uploa
 app.get('/', isAuthenticated, home)
 
 //CALENDAR
+app.get("/calendar", isAuthenticated,(req, res) => {calendar.getAll(req, res, connection)})
+app.post("/create-calendar",isAuthenticated, (req, res) => {calendar.Create(req, res, connection)})
+app.get("/create-calendar", isAuthenticated,(req, res) => {calendar.getCreate(req, res, connection)})
+app.get("/view-calendar/:id", isAuthenticated,(req, res) => {calendar.getSingle(req, res, connection)})
+app.get("/update-calendar/:id",isAuthenticated, (req, res) => {calendar.getUpdate(req, res, connection)})
+app.post("/update-calendar/:id",isAuthenticated, (req, res) => {calendar.update(req, res, connection)})
+app.post("/delete-calendar/:id",isAuthenticated, (req, res) => {calendar.deleteCalendar(req, res, connection)})
+
 // TEAM MEMBERS
 app.get("/members", isAuthenticated,(req, res) => {memberService.getAllMembers(req, res, connection)})
 app.post("/create-member",isAuthenticated, (req, res) => {memberService.Create(req, res, connection)})
@@ -138,11 +154,13 @@ app.post("/document/:id",isAuthenticated, (req, res) => {documentService.updated
 app.delete("/document/:id",isAuthenticated, (req, res) => {documentService.deletedocuments(req, res, connection)})
 
 // PROJECTS
+app.get("/create-project",isAuthenticated, (req, res) => {projectService.getCreateProject(req, res)})
 app.post("/project",isAuthenticated, (req, res) => {projectService.CreateProject(req, res, connection)})
 app.get("/project/:id",isAuthenticated, (req, res) => {projectService.getSingleprojects(req, res, connection)})
 app.get("/projects",isAuthenticated,(req, res) => {projectService.getAllprojectss(req, res, connection)})
+app.get("/update-project/:id",isAuthenticated, (req, res) => {projectService.getUpdate(req, res, connection)})
 app.post("/project/:id",isAuthenticated, (req, res) => {projectService.updateprojects(req, res, connection)})
-app.delete("/project/:id",isAuthenticated, (req, res) => {projectService.deleteprojects(req, res, connection)})
+app.post("/delete-project/:id",isAuthenticated, (req, res) => {projectService.deleteprojects(req, res, connection)})
 //REPORTS
 app.get("/reports", reports)
 app.listen(3000,()=>{

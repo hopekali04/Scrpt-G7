@@ -1,18 +1,23 @@
 .content-wrap .info-boxes {
-    padding: 3em 0 2em;
+    /* padding: 3em 0 2em; */
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     grid-gap: 2em;
   }
+  .content-wrap{
+    background-color: rgb(255, 255, 255);
+    padding: 5px;
+    margin-top: 0.4rem;
+  }
   .content-wrap .info-boxes .info-box {
-    background: #fff;
+    background: rgba(255, 254, 254, 0.9);
     height: 160px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding: 0 3em;
     border: 1px solid #ede8f0;
-    border-radius: 5px;
+    border-radius: 20px;
   }
   .content-wrap .info-boxes .info-box .box-icon svg {
     display: block;
@@ -37,3 +42,22 @@
   .content-wrap .info-boxes .info-box.active svg path {
     fill: #4b84fe;
   }
+.teams-summary {
+  display: flex;
+  align-items: center;
+  gap: 2em;
+
+}
+.teams-summary > .content-wrap{
+  margin: 15px;
+  flex: 2;
+  height: 100%;
+  padding: none;
+}
+.chart-container {
+  margin: 0 auto;
+  display: flex;
+  padding: 20px;
+  text-align: center;
+  background-color: rgb(251, 248, 248);
+}

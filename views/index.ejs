@@ -7,28 +7,60 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const maleCount = <%= graph.maleCount %>; // Replace with your male count data
+        const femaleCount = <%= graph.femaleCount %>; // Replace with your female count data
+
+        // Pie Chart
+        const ctxPie = document.getElementById('pieChart').getContext('2d');
+        const dataPie = {
+            labels: ['Male Count', 'Female Count'],
+            datasets: [
+                {
+                    data: [maleCount, femaleCount],
+                    backgroundColor: ['blue', 'pink']
+                }
+            ]
+        };
+        const configPie = {
+            type: 'pie',
+            data: dataPie,
+        };
+        new Chart(ctxPie, configPie);
+    });
+</script>
+
+<style>
+
+</style>
 <body>
     <%- include('partials/navbar') %>
     <div class="main">
     <%- include('partials/header') %>
     <div class="content">
-        <h1>Dashboard</h1>
-        <br>
+        <div class="dashboard">
+        <h1><center>Dashboard</center></h1>
+        </div>
         <!-- CROPS SECTION -->
         <% if (array.length === 0) { %>
             <!-- This will be displayed when the array length is 0 -->
         <div class="dotted-box">Please Enter Crop Data To Preview here</div> 
         <% } %>
         <div class="content-wrap">
-            <h3>Crops</h3>
+            <!--  <h3>Crops</h3> -->
+            <p>CROP SUMMARY</p>
             <section class="info-boxes">
                 <!-- Add For Loop Here -->
             <!-- LOOP -->
-            <% array.forEach((item) => { %>
-                <div class="info-box">
+            <% const color = ["red", "blue", "yellow", "purple", "orange"]; %>
+            <% const colors = ["rgba(162, 206, 5, 0.889)", "rgba(42, 225, 36, 0.9)", "rgba(255, 255, 0, 0.9)", "rgba(128, 0, 128, 0.9)", "rgba(255, 165, 0, 0.9)"]; %>
+            <% array.forEach((item, index) => { %>
+                <div class="info-box" style="background-color: <%= colors[index % colors.length] %>;">
                     <div class="box-icon">
-                        <i class="icon"><i class="fa-solid fa-seedling fa-2xl"></i></i>
+                        <i class="icon"><i style="color: green;" class="fa-solid fa-seedling fa-2xl"></i></i>
                     </div>
                     
                     <div class="box-content">
@@ -39,10 +71,11 @@
                 </div>
             <% }) %>
             </section>
-
+        </div><br>
             <!-- TEAMS SECTION -->
+        <div class="teams-summary">
             <div class="content-wrap">
-                <h3>Teams</h3>
+                <!--  <h3>Teams</h3> -->
                 <div class="card-container">
                     <% teams.forEach((item) => { %>                      
                         <div class="card">
@@ -72,6 +105,12 @@
                     <% }) %>
                 </div>
             </div>
+            <div class="chart-container">
+                    <h1 style="text-align: center;"></h1>
+                        <!-- <h2>Bar Chart</h2>  -->
+                        <canvas id="pieChart" width="200" height="100"></canvas>
+            </div>
+        </div>
             
     </div> 
     </div>

@@ -15,26 +15,20 @@
     <div class="content">
         <div class="container">
         <h1>Create a New Project</h1>
-        <form action="/project" method="POST">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required><br>
+        <form action="/create-calendar" method="POST">
+            <label for="event_name">Event name:</label>
+            <input type="text" id="event_name" name="event_name" required><br>
 
             <label for="description">Description:</label>
             <textarea id="description" name="description"></textarea><br>
 
-            <label for="start_date">Start Date:</label>
-            <input type="date" id="start_date" name="start_date"><br>
+            <label for="location">location:</label>
+            <input type="text" id="location" name="location"><br>
 
-            <label for="end_date">End Date:</label>
-            <input type="date" id="end_date" name="end_date"><br>
+            <label for="event_date">Event Date:</label>
+            <input type="date" id="event_date" name="event_date"><br>
 
-            <label for="status">Status:</label>
-            <select name="status" id="status" placeholder="N">
-                <option value="OPEN">OPEN</option>
-                <option value="CLOSED">CLOSED</option>
-            </select>
-
-            <button type="submit">Create Project</button>
+            <button type="submit">Create Calendar</button>
         </form>
         </div>
     </div>
